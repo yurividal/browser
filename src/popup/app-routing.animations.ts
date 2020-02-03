@@ -106,14 +106,14 @@ export function ciphersToView(fromState: string, toState: string) {
     if (fromState == null || toState === null) {
         return false;
     }
-    return fromState.indexOf('ciphers_') === 0 && (toState === 'view-cipher' || toState === 'add-cipher');
+    return fromState.indexOf('ciphers_') === 0 && (toState === 'view-cipher' || toState === 'add-cipher' || toState === 'clone-cipher');
 }
 
 export function viewToCiphers(fromState: string, toState: string) {
     if (fromState == null || toState === null) {
         return false;
     }
-    return (fromState === 'view-cipher' || fromState === 'add-cipher') && toState.indexOf('ciphers_') === 0;
+    return (fromState === 'view-cipher' || fromState === 'add-cipher' || fromState === 'clone-cipher') && toState.indexOf('ciphers_') === 0;
 }
 
 export const routerTransition = trigger('routerTransition', [
@@ -142,8 +142,8 @@ export const routerTransition = trigger('routerTransition', [
     transition('tabs => view-cipher', inSlideUp),
     transition('view-cipher => tabs', outSlideDown),
 
-    transition('view-cipher => edit-cipher, view-cipher => cipher-password-history', inSlideUp),
-    transition('edit-cipher => view-cipher, cipher-password-history => view-cipher, edit-cipher => tabs', outSlideDown),
+    transition('view-cipher => edit-cipher, view-cipher => cipher-password-history, view-cipher => clone-cipher', inSlideUp),
+    transition('edit-cipher => view-cipher, clone-cipher => view-cipher, cipher-password-history => view-cipher, edit-cipher => tabs, clone-cipher => tabs', outSlideDown),
 
     transition('tabs => add-cipher', inSlideUp),
     transition('add-cipher => tabs', outSlideDown),
@@ -151,14 +151,17 @@ export const routerTransition = trigger('routerTransition', [
     transition('generator => generator-history, tabs => generator-history', inSlideLeft),
     transition('generator-history => generator, generator-history => tabs', outSlideRight),
 
-    transition('add-cipher => generator, edit-cipher => generator', inSlideUp),
-    transition('generator => add-cipher, generator => edit-cipher', outSlideDown),
+    transition('add-cipher => generator, edit-cipher => generator, clone-cipher => generator', inSlideUp),
+    transition('generator => add-cipher, generator => edit-cipher, generator => clone-cipher', outSlideDown),
 
     transition('edit-cipher => share-cipher', inSlideUp),
     transition('share-cipher => edit-cipher, share-cipher => view-cipher', outSlideDown),
 
     transition('edit-cipher => attachments, edit-cipher => collections', inSlideLeft),
     transition('attachments => edit-cipher, collections => edit-cipher', outSlideRight),
+
+    transition('clone-cipher => attachments, clone-cipher => collections', inSlideLeft),
+    transition('attachments => clone-cipher, collections => clone-cipher', outSlideRight),
 
     transition('tabs => export', inSlideLeft),
     transition('export => tabs', outSlideRight),

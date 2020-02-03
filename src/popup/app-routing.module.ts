@@ -205,6 +205,12 @@ const routes: Routes = [
         data: { state: 'private-mode' },
     },
     {
+        path: 'clone-cipher',
+        component: AddEditComponent,
+        canActivate: [AuthGuardService],
+        data: { state: 'clone-cipher' },
+    },
+    {
         path: 'tabs',
         component: TabsComponent,
         data: { state: 'tabs' },
@@ -238,7 +244,7 @@ const routes: Routes = [
                 component: SettingsComponent,
                 canActivate: [AuthGuardService],
                 data: { state: 'tabs_settings' },
-            },
+            }
         ],
     },
 ];
