@@ -106,14 +106,16 @@ export function ciphersToView(fromState: string, toState: string) {
     if (fromState == null || toState === null) {
         return false;
     }
-    return fromState.indexOf('ciphers_') === 0 && (toState === 'view-cipher' || toState === 'add-cipher' || toState === 'clone-cipher');
+    return fromState.indexOf('ciphers_') === 0 &&
+        (toState === 'view-cipher' || toState === 'add-cipher' || toState === 'clone-cipher');
 }
 
 export function viewToCiphers(fromState: string, toState: string) {
     if (fromState == null || toState === null) {
         return false;
     }
-    return (fromState === 'view-cipher' || fromState === 'add-cipher' || fromState === 'clone-cipher') && toState.indexOf('ciphers_') === 0;
+    return (fromState === 'view-cipher' || fromState === 'add-cipher' || fromState === 'clone-cipher') &&
+        toState.indexOf('ciphers_') === 0;
 }
 
 export const routerTransition = trigger('routerTransition', [
@@ -142,8 +144,11 @@ export const routerTransition = trigger('routerTransition', [
     transition('tabs => view-cipher', inSlideUp),
     transition('view-cipher => tabs', outSlideDown),
 
-    transition('view-cipher => edit-cipher, view-cipher => cipher-password-history, view-cipher => clone-cipher', inSlideUp),
-    transition('edit-cipher => view-cipher, clone-cipher => view-cipher, cipher-password-history => view-cipher, edit-cipher => tabs, clone-cipher => tabs', outSlideDown),
+    transition('view-cipher => edit-cipher, view-cipher => cipher-password-history', inSlideUp),
+    transition('edit-cipher => view-cipher, cipher-password-history => view-cipher, edit-cipher => tabs', outSlideDown),
+
+    transition('view-cipher => clone-cipher', inSlideUp),
+    transition('clone-cipher => view-cipher, clone-cipher => tabs', outSlideDown),
 
     transition('tabs => add-cipher', inSlideUp),
     transition('add-cipher => tabs', outSlideDown),

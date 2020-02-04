@@ -69,8 +69,8 @@ export class ViewComponent extends BaseViewComponent {
         this.router.navigate(['/clone-cipher'], {
             queryParams: {
                 cloneMode: true,
-                cipherId: this.cipher.id
-            }
+                cipherId: this.cipher.id,
+            },
         });
     }
 

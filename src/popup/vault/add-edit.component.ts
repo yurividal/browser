@@ -61,7 +61,7 @@ export class AddEditComponent extends BaseAddEditComponent {
 
             if (params.cloneMode != null) {
                 this.cloneMode = params.cloneMode === true;
-            } 
+            }
             await this.load();
 
             if (!this.editMode) {
