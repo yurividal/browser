@@ -244,7 +244,7 @@ const routes: Routes = [
                 component: SettingsComponent,
                 canActivate: [AuthGuardService],
                 data: { state: 'tabs_settings' },
-            }
+            },
         ],
     },
 ];
