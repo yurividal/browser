@@ -123,8 +123,8 @@ function distSafariDmg(cb) {
 
 function distSafariApp(cb, subBuildPath) {
     const buildPath = paths.dist + 'Safari/' + subBuildPath + '/';
-    const builtAppexPath = buildPath + 'build/Release/safari.appex';
-    const builtAppexFrameworkPath = buildPath + 'build/Release/safari.appex/Contents/Frameworks/';
+    const builtAppexPath = buildPath + 'build/Release/safari-legacy.appex';
+    const builtAppexFrameworkPath = buildPath + 'build/Release/safari-legacy.appex/Contents/Frameworks/';
     const entitlementsPath = paths.safari + 'safari/safari.entitlements';
     var args = [
         '--verbose',

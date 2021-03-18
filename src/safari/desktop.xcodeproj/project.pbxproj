@@ -52,7 +52,7 @@
 		27E5E99322F3D5B4005EA1D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		27E5E99522F3D5B4005EA1D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		27E5E99622F3D5B4005EA1D9 /* desktop.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = desktop.entitlements; sourceTree = "<group>"; };
-		27E5E9A022F3D5FE005EA1D9 /* safari.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = safari.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		27E5E9A022F3D5FE005EA1D9 /* safari.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = safari-legacy.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		27E5E9A222F3D5FE005EA1D9 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		27E5E9A522F3D5FE005EA1D9 /* SafariExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariExtensionHandler.swift; sourceTree = "<group>"; };
 		27E5E9A722F3D5FE005EA1D9 /* SafariExtensionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariExtensionViewController.swift; sourceTree = "<group>"; };
@@ -170,8 +170,8 @@
 			);
 			dependencies = (
 			);
-			name = safari;
-			productName = safari;
+			name = safari-legacy;
+			productName = safari-legacy;
 			productReference = 27E5E9A022F3D5FE005EA1D9 /* safari.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
@@ -464,7 +464,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bitwarden.desktop.safari;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bitwarden.desktop.safari-legacy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -486,7 +486,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bitwarden.desktop.safari;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bitwarden.desktop.safari-legacy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
