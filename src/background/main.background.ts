@@ -19,6 +19,7 @@ import {
     TokenService,
     TotpService,
     UserService,
+    WebWorkerService,
 } from 'jslib/services';
 import { ConsoleLogService } from 'jslib/services/consoleLog.service';
 import { EventService } from 'jslib/services/event.service';
@@ -53,6 +54,7 @@ import {
     TotpService as TotpServiceAbstraction,
     UserService as UserServiceAbstraction,
     VaultTimeoutService as VaultTimeoutServiceAbstraction,
+    WebWorkerService as WebWorkerServiceAbstraction
 } from 'jslib/abstractions';
 import { CryptoFunctionService as CryptoFunctionServiceAbstraction } from 'jslib/abstractions/cryptoFunction.service';
 import { EventService as EventServiceAbstraction } from 'jslib/abstractions/event.service';
@@ -125,6 +127,7 @@ export default class MainBackground {
     popupUtilsService: PopupUtilsService;
     sendService: SendServiceAbstraction;
     fileUploadService: FileUploadServiceAbstraction;
+    webWorkerService: WebWorkerServiceAbstraction;
 
     onUpdatedRan: boolean;
     onReplacedRan: boolean;
@@ -182,8 +185,10 @@ export default class MainBackground {
         this.userService = new UserService(this.tokenService, this.storageService);
         this.settingsService = new SettingsService(this.userService, this.storageService);
         this.fileUploadService = new FileUploadService(this.consoleLogService, this.apiService);
+        this.webWorkerService = new WebWorkerService();
         this.cipherService = new CipherService(this.cryptoService, this.userService, this.settingsService,
-            this.apiService, this.fileUploadService, this.storageService, this.i18nService, () => this.searchService);
+            this.apiService, this.fileUploadService, this.storageService, this.i18nService, () => this.searchService,
+            this.webWorkerService, this.consoleLogService);
         this.folderService = new FolderService(this.cryptoService, this.userService, this.apiService,
             this.storageService, this.i18nService, this.cipherService);
         this.collectionService = new CollectionService(this.cryptoService, this.userService, this.storageService,
@@ -206,7 +211,7 @@ export default class MainBackground {
                     this.systemService.startProcessReload();
                     await this.systemService.clearPendingClipboard();
                 }
-            }, async () => await this.logout(false));
+            }, async () => await this.logout(false), this.webWorkerService);
         this.syncService = new SyncService(this.userService, this.apiService, this.settingsService,
             this.folderService, this.cipherService, this.cryptoService, this.collectionService,
             this.storageService, this.messagingService, this.policyService, this.sendService,
