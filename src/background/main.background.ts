@@ -188,7 +188,7 @@ export default class MainBackground {
         this.webWorkerService = new WebWorkerService();
         this.cipherService = new CipherService(this.cryptoService, this.userService, this.settingsService,
             this.apiService, this.fileUploadService, this.storageService, this.i18nService, () => this.searchService,
-            this.webWorkerService, this.consoleLogService);
+            this.webWorkerService, this.consoleLogService, this.platformUtilsService);
         this.folderService = new FolderService(this.cryptoService, this.userService, this.apiService,
             this.storageService, this.i18nService, this.cipherService);
         this.collectionService = new CollectionService(this.cryptoService, this.userService, this.storageService,
