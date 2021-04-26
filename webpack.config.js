@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const AngularCompilerPlugin = require('@ngtools/webpack').AngularCompilerPlugin;
+const WorkerPlugin = require('worker-plugin');
 
 if (process.env.NODE_ENV == null) {
     process.env.NODE_ENV = 'development';
@@ -106,6 +107,9 @@ const plugins = [
             'ENV': JSON.stringify(ENV)
         }
     }),
+    new WorkerPlugin({
+        globalObject: 'self'
+    })
 ];
 
 if (ENV === 'production') {
