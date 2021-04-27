@@ -364,6 +364,7 @@ export default class MainBackground {
             this.policyService.clear(userId),
             this.passwordGenerationService.clear(),
             this.vaultTimeoutService.clear(),
+            this.webWorkerService.terminateAll(),
         ]);
 
         this.searchService.clearIndex();
