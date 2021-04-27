@@ -108,6 +108,7 @@ const plugins = [
         }
     }),
     new WorkerPlugin({
+        plugins: ENV === 'production' ? ['AngularCompilerPlugin'] : null,
         globalObject: 'self'
     })
 ];
