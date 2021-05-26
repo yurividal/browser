@@ -130,6 +130,8 @@ export default class RuntimeBackground {
                 }
                 switch (msg.sender) {
                     case 'notificationBar':
+                        console.log("autofill.js returned:");
+                        console.log(msg.details);
                         const forms = this.autofillService.getFormsWithPasswordFields(msg.details);
                         await BrowserApi.tabSendMessageData(msg.tab, 'notificationBarPageDetails', {
                             details: msg.details,

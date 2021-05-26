@@ -140,9 +140,13 @@ export default class AutofillService implements AutofillServiceInterface {
 
     getFormsWithPasswordFields(pageDetails: AutofillPageDetails): any[] {
         const formData: any[] = [];
+        console.log("getFormsWithPasswordFields(): received the following forms & fields from collect()");
+        console.log(pageDetails.forms);
+        console.log(pageDetails.fields);
 
         const passwordFields = this.loadPasswordFields(pageDetails, true, true, false, false);
         if (passwordFields.length === 0) {
+            console.log("getFormsWithPasswordFields(): no password fields detected in pageDetails. Exiting");
             return formData;
         }
 
@@ -167,6 +171,8 @@ export default class AutofillService implements AutofillServiceInterface {
             }
         }
 
+        console.log("getFormsWithPasswordFields(): returning formData[] to content scripts:")
+        console.log(formData);
         return formData;
     }
 

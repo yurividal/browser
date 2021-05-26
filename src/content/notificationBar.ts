@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', event => {
+    console.log("notificationBar.ts: DOMContentLoaded");
     if (window.location.hostname.indexOf('vault.bitwarden.com') > -1) {
         return;
     }
@@ -87,6 +88,7 @@ document.addEventListener('DOMContentLoaded', event => {
                 if (mutations == null || mutations.length === 0 || pageHref !== window.location.href) {
                     return;
                 }
+                console.log("notificationBar.js: found mutations on <body>");
 
                 let doCollect = false;
                 for (let i = 0; i < mutations.length; i++) {
@@ -120,6 +122,8 @@ document.addEventListener('DOMContentLoaded', event => {
                         }
                     }
 
+                    // doCollect = true;
+                    console.log("notificationBar.js: doCollect = " + doCollect);
                     if (doCollect) {
                         break;
                     }
@@ -168,6 +172,7 @@ document.addEventListener('DOMContentLoaded', event => {
     }
 
     function collect() {
+        console.log("collect(): requesting collectPageDetails");
         sendPlatformMessage({
             command: 'bgCollectPageDetails',
             sender: 'notificationBar',
@@ -175,7 +180,11 @@ document.addEventListener('DOMContentLoaded', event => {
     }
 
     function watchForms(forms: any[]) {
+        console.log("watchForms(): received the following password forms");
+        console.log(forms);
+
         if (forms == null || forms.length === 0) {
+            console.log("no login forms detected, no forms to watch");
             return;
         }
 
@@ -205,13 +214,20 @@ document.addEventListener('DOMContentLoaded', event => {
                 formEl.dataset.bitwardenWatching = '1';
             }
         });
+
+        console.log("watchForms(): created formData:");
+        console.log(formData);
     }
 
     function listen(form: HTMLFormElement) {
+        console.log("attaching listener to form:");
+        console.log(form);
         form.removeEventListener('submit', formSubmitted, false);
         form.addEventListener('submit', formSubmitted, false);
         const submitButton = getSubmitButton(form, logInButtonNames);
         if (submitButton != null) {
+            console.log("attaching listener to submit button:");
+            console.log(submitButton);
             submitButton.removeEventListener('click', formSubmitted, false);
             submitButton.addEventListener('click', formSubmitted, false);
         }
@@ -268,6 +284,9 @@ document.addEventListener('DOMContentLoaded', event => {
     }
 
     function formSubmitted(e: Event) {
+        console.log("formSubmitted(): detected event:");
+        console.log(e);
+
         let form: HTMLFormElement = null;
         if (e.type === 'click') {
             form = (e.target as HTMLElement).closest('form');
@@ -284,6 +303,9 @@ document.addEventListener('DOMContentLoaded', event => {
             form = e.target as HTMLFormElement;
         }
 
+        console.log("formSubmitted(): found the following form attached to the event:");
+        console.log(form);
+
         if (form == null || form.dataset.bitwardenProcessed === '1') {
             return;
         }
@@ -299,6 +321,9 @@ document.addEventListener('DOMContentLoaded', event => {
                     password: formData[i].passwordEl.value,
                     url: document.URL,
                 };
+
+                console.log("formSubmitted(): associated with formData and sending login for saving if not null:");
+                console.log(login);
 
                 if (login.username != null && login.username !== '' &&
                     login.password != null && login.password !== '') {
