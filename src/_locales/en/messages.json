@@ -1736,5 +1736,17 @@
   },
   "emailVerificationRequiredDesc": {
     "message": "You must verify your email to use this feature. You can verify your email in the web vault."
+  },
+  "logInButtonNames": {
+    "message": "log in,sign in,login,go,submit,continue,next",
+    "description": "A list of common names for login buttons, separated by commas."
+  },
+  "cancelButtonNames": {
+    "message": "cancel,close,back",
+    "description": "A list of common names for cancel buttons, separated by commas."
+  },
+  "changePasswordButtonNames": {
+    "message": "save password,update password,change password,change",
+    "description": "A list of common names for change password buttons, separated by commas."
   }
 }

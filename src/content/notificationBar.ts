@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', event => {
                 disabledChangedPasswordNotification = disChangedObj != null &&
                     disChangedObj.disableChangedPasswordNotification === true;
                 if (!disabledAddLoginNotification || !disabledChangedPasswordNotification) {
+                    initI18n();
                     collectIfNeededWithTimeout();
                 }
             });
@@ -70,6 +71,18 @@ document.addEventListener('DOMContentLoaded', event => {
             watchForms(msg.data.forms);
             sendResponse();
             return true;
+        }
+    }
+
+    function initI18n() {
+        const systemLanguage = chrome.i18n.getUILanguage();
+        if (systemLanguage !== 'en' && systemLanguage.indexOf('en-') === -1) {
+            const i18nLogInButtonNames = chrome.i18n.getMessage('logInButtonNames');
+            const i18nCancelButtonNames = chrome.i18n.getMessage('cancelButtonNames');
+            const i18nChangePasswordButtonNames = chrome.i18n.getMessage('cancelButtonNames');
+            i18nLogInButtonNames?.split(',').forEach(name => logInButtonNames.add(name));
+            i18nCancelButtonNames?.split(',').forEach(name => cancelButtonNames.add(name));
+            i18nChangePasswordButtonNames?.split(',').forEach(name => changePasswordButtonNames.add(name));
         }
     }
 
