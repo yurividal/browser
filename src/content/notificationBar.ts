@@ -116,6 +116,7 @@ document.addEventListener('DOMContentLoaded', event => {
                             continue;
                         }
 
+                        // Check for forms els
                         const tagName = addedNode.tagName != null ? addedNode.tagName.toLowerCase() : null;
                         if (tagName != null && tagName === 'form' &&
                             (addedNode.dataset == null || !addedNode.dataset.bitwardenWatching)) {
@@ -130,6 +131,13 @@ document.addEventListener('DOMContentLoaded', event => {
 
                         const forms = addedNode.querySelectorAll('form:not([data-bitwarden-watching])');
                         if (forms != null && forms.length > 0) {
+                            doCollect = true;
+                            break;
+                        }
+
+                        // Check for password fields
+                        const passwordField = addedNode.querySelector('input[type="password"]')
+                        if (passwordField && passwordField.dataset.bitwardenWatching != '1') {
                             doCollect = true;
                             break;
                         }
@@ -204,13 +212,19 @@ document.addEventListener('DOMContentLoaded', event => {
         forms.forEach((f: any) => {
             const formId: string = f.form != null ? f.form.htmlID : null;
             let formEl: HTMLFormElement = null;
-            if (formId != null && formId !== '') {
-                formEl = document.getElementById(formId) as HTMLFormElement;
-            }
 
-            if (formEl == null) {
-                const index = parseInt(f.form.opid.split('__')[2], null);
-                formEl = document.getElementsByTagName('form')[index];
+            if (f.form === null) {
+                // elements not contained in a form - treat <body> as the "form"
+                formEl = document.getElementsByTagName('body')[0] as any;
+            } else {
+                if (formId != null && formId !== '') {
+                    formEl = document.getElementById(formId) as HTMLFormElement;
+                }
+
+                if (formEl == null) {
+                    const index = parseInt(f.form.opid.split('__')[2], null);
+                    formEl = document.getElementsByTagName('form')[index];
+                }
             }
 
             if (formEl != null && formEl.dataset.bitwardenWatching !== '1') {
@@ -223,8 +237,7 @@ document.addEventListener('DOMContentLoaded', event => {
                 };
                 locateFields(formDataObj);
                 formData.push(formDataObj);
-                listen(formEl);
-                formEl.dataset.bitwardenWatching = '1';
+                listen(formDataObj);
             }
         });
 
@@ -232,17 +245,40 @@ document.addEventListener('DOMContentLoaded', event => {
         console.log(formData);
     }
 
-    function listen(form: HTMLFormElement) {
-        console.log("attaching listener to form:");
-        console.log(form);
-        form.removeEventListener('submit', formSubmitted, false);
-        form.addEventListener('submit', formSubmitted, false);
-        const submitButton = getSubmitButton(form, logInButtonNames);
+    function listen(formDataObj: any) {
+        const formEl = formDataObj.formEl;
+
+        // Attach listeners to submit event on <form>
+        if (formEl.tagName.toLowerCase() !== 'body') {
+            console.log("attaching listener to form:");
+            console.log(formEl);
+            formEl.removeEventListener('submit', formSubmitted, false);
+            formEl.addEventListener('submit', formSubmitted, false);
+            formEl.dataset.bitwardenWatching = '1';
+        }
+
+        // Attach event listeners to submit button
+        const submitButton = getSubmitButton(formEl, logInButtonNames);
         if (submitButton != null) {
             console.log("attaching listener to submit button:");
             console.log(submitButton);
             submitButton.removeEventListener('click', formSubmitted, false);
             submitButton.addEventListener('click', formSubmitted, false);
+        }
+
+        // Attach event listeners to input fields
+        const keyUpCallback = (event: any) => {
+            if (event.key === 'Enter') {
+                formSubmitted(event);
+            }
+        }
+        formDataObj.usernameEl.removeEventListener('keyup', keyUpCallback, false)
+        formDataObj.usernameEl.addEventListener('keyup', keyUpCallback, false);
+        formDataObj.passwordEl.removeEventListener('keyup', keyUpCallback, false)
+        formDataObj.passwordEl.addEventListener('keyup', keyUpCallback, false);
+        if (formEl.tagName.toLowerCase() === 'body') {
+            // mark bitwardenWatching directly on password fields that don't have forms
+            formDataObj.passwordEl.dataset.bitwardenWatching = '1';
         }
     }
 
@@ -301,7 +337,7 @@ document.addEventListener('DOMContentLoaded', event => {
         console.log(e);
 
         let form: HTMLFormElement = null;
-        if (e.type === 'click') {
+        if (e.type === 'click' || e.type === 'keyup') {
             form = (e.target as HTMLElement).closest('form');
             if (form == null) {
                 const parentModal = (e.target as HTMLElement).closest('div.modal');
@@ -316,10 +352,14 @@ document.addEventListener('DOMContentLoaded', event => {
             form = e.target as HTMLFormElement;
         }
 
+        if (form == null) {
+            form = document.getElementsByTagName('body')[0] as any;
+        }
+
         console.log("formSubmitted(): found the following form attached to the event:");
         console.log(form);
 
-        if (form == null || form.dataset.bitwardenProcessed === '1') {
+        if (form.dataset.bitwardenProcessed === '1') {
             return;
         }
 

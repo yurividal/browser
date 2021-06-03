@@ -150,6 +150,7 @@ export default class AutofillService implements AutofillServiceInterface {
             return formData;
         }
 
+        // <form> elements with password fields
         for (const formKey in pageDetails.forms) {
             if (!pageDetails.forms.hasOwnProperty(formKey)) {
                 continue;
@@ -169,6 +170,21 @@ export default class AutofillService implements AutofillServiceInterface {
                     passwords: formPasswordFields,
                 });
             }
+        }
+
+        // password fields not contained in a <form> element
+        const pfWithoutForm = passwordFields.filter(pf => pf.form == null)[0];
+        if (pfWithoutForm != null) {
+            let ufWithoutForm = this.findUsernameField(pageDetails, pfWithoutForm, false, false, true, true);
+            if (ufWithoutForm == null) {
+                // not able to find any viewable username fields. maybe there are some "hidden" ones?
+                ufWithoutForm = this.findUsernameField(pageDetails, pfWithoutForm, true, true, true, true);
+            }
+            formData.push({
+                form: null,
+                password: pfWithoutForm,
+                username: ufWithoutForm
+            });
         }
 
         console.log("getFormsWithPasswordFields(): returning formData[] to content scripts:")
@@ -983,7 +999,7 @@ export default class AutofillService implements AutofillServiceInterface {
     }
 
     private findUsernameField(pageDetails: AutofillPageDetails, passwordField: AutofillField, canBeHidden: boolean,
-        canBeReadOnly: boolean, withoutForm: boolean) {
+        canBeReadOnly: boolean, includeWithoutForm: boolean, withoutFormOnly = false) {
         let usernameField: AutofillField = null;
         for (let i = 0; i < pageDetails.fields.length; i++) {
             const f = pageDetails.fields[i];
@@ -992,7 +1008,8 @@ export default class AutofillService implements AutofillServiceInterface {
             }
 
             if (!f.disabled && (canBeReadOnly || !f.readonly) &&
-                (withoutForm || f.form === passwordField.form) && (canBeHidden || f.viewable) &&
+                ((withoutFormOnly && f.form == null) || (!withoutFormOnly && includeWithoutForm || f.form === passwordField.form)) &&
+                (canBeHidden || f.viewable) &&
                 (f.type === 'text' || f.type === 'email' || f.type === 'tel')) {
                 usernameField = f;
 
