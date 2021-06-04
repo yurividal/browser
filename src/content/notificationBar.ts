@@ -463,7 +463,7 @@ document.addEventListener('DOMContentLoaded', event => {
         }
         if (submitButton == null) {
             const possibleSubmitButtons = Array.from(wrappingEl.querySelectorAll('a, span, button[type="button"], ' +
-                'input[type="button"], button:not([type])')) as HTMLElement[];
+                'input[type="button"], button:not([type]), div[role="button"]')) as HTMLElement[];
             let typelessButton: HTMLElement = null;
             possibleSubmitButtons.forEach(button => {
                 if (submitButton != null || button == null || button.tagName == null) {
@@ -482,6 +482,11 @@ document.addEventListener('DOMContentLoaded', event => {
             });
             if (submitButton == null && typelessButton != null) {
                 submitButton = typelessButton;
+            } else if (submitButton?.tagName.toLowerCase() === 'span') {
+                const parentButton = submitButton.closest('button');
+                if (parentButton != null) {
+                    submitButton = parentButton;
+                }
             }
         }
         if (submitButton == null && wrappingElIsForm) {
