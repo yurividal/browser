@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', event => {
     const observeIgnoredElements = new Set(['a', 'i', 'b', 'strong', 'span', 'code', 'br', 'img', 'small', 'em', 'hr']);
     let domObservationCollectTimeout: number = null;
     let collectIfNeededTimeout: number = null;
-    let observeDomTimeout: number = null;
     const inIframe = isInIframe();
     const cancelButtonNames = new Set(['cancel', 'close', 'back']);
     const logInButtonNames = new Set(['log in', 'sign in', 'login', 'go', 'submit', 'continue', 'next']);
@@ -97,11 +96,13 @@ document.addEventListener('DOMContentLoaded', event => {
     function observeDom() {
         const bodies = document.querySelectorAll('body');
         if (bodies && bodies.length > 0) {
+            console.log("notificationBar.ts: attaching mutation observer");
             observer = new MutationObserver(mutations => {
+                console.log("notificationBar.ts: found mutations on <body>");
+                console.log(mutations);
                 if (mutations == null || mutations.length === 0 || pageHref !== window.location.href) {
                     return;
                 }
-                console.log("notificationBar.js: found mutations on <body>");
 
                 let doCollect = false;
                 for (let i = 0; i < mutations.length; i++) {
@@ -152,9 +153,11 @@ document.addEventListener('DOMContentLoaded', event => {
 
                 if (doCollect) {
                     if (domObservationCollectTimeout != null) {
+                        console.log("notificationBar.ts: clearing domObservationCollectTimeout");
                         window.clearTimeout(domObservationCollectTimeout);
                     }
 
+                    console.log("notificationBar.ts: setting domObservationCollectTimeout");
                     domObservationCollectTimeout = window.setTimeout(collect, 1000);
                 }
             });
@@ -179,11 +182,7 @@ document.addEventListener('DOMContentLoaded', event => {
             }
 
             collect();
-
-            if (observeDomTimeout != null) {
-                window.clearTimeout(observeDomTimeout);
-            }
-            observeDomTimeout = window.setTimeout(observeDom, 1000);
+            observeDom();
         }
 
         if (collectIfNeededTimeout != null) {
