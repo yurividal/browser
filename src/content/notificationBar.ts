@@ -265,16 +265,25 @@ document.addEventListener('DOMContentLoaded', event => {
             submitButton.addEventListener('click', formSubmitted, false);
         }
 
+        console.log("attaching input event listeners to:");
+        console.log(formDataObj.usernameEl);
+        console.log(formDataObj.passwordEl);
         // Attach event listeners to input fields
-        const keyUpCallback = (event: any) => {
+        // Some modern forms intercept before keyUp is triggered so we test keyDown instead
+        const keyDownCallback = (event: any) => {
+            if (event.isComposing || event.keyCode === 229) {
+                // ignore events fired during IME composition
+                // per https://developer.mozilla.org/en-US/docs/Web/API/Document/keydown_event
+                return;
+            }
             if (event.key === 'Enter') {
                 formSubmitted(event);
             }
         }
-        formDataObj.usernameEl.removeEventListener('keyup', keyUpCallback, false)
-        formDataObj.usernameEl.addEventListener('keyup', keyUpCallback, false);
-        formDataObj.passwordEl.removeEventListener('keyup', keyUpCallback, false)
-        formDataObj.passwordEl.addEventListener('keyup', keyUpCallback, false);
+        formDataObj.usernameEl.removeEventListener('keydown', keyDownCallback, false)
+        formDataObj.usernameEl.addEventListener('keydown', keyDownCallback, false);
+        formDataObj.passwordEl.removeEventListener('keydown', keyDownCallback, false)
+        formDataObj.passwordEl.addEventListener('keydown', keyDownCallback, false);
         if (formEl.tagName.toLowerCase() === 'body') {
             // mark bitwardenWatching directly on password fields that don't have forms
             formDataObj.passwordEl.dataset.bitwardenWatching = '1';
@@ -336,7 +345,7 @@ document.addEventListener('DOMContentLoaded', event => {
         console.log(e);
 
         let form: HTMLFormElement = null;
-        if (e.type === 'click' || e.type === 'keyup') {
+        if (e.type === 'click' || e.type === 'keydown') {
             form = (e.target as HTMLElement).closest('form');
             if (form == null) {
                 const parentModal = (e.target as HTMLElement).closest('div.modal');
