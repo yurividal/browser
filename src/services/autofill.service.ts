@@ -145,10 +145,6 @@ export default class AutofillService implements AutofillServiceInterface {
         console.log(pageDetails.fields);
 
         const passwordFields = this.loadPasswordFields(pageDetails, true, true, false, false);
-        if (passwordFields.length === 0) {
-            console.log("getFormsWithPasswordFields(): no password fields detected in pageDetails. Exiting");
-            return formData;
-        }
 
         // <form> elements with password fields
         for (const formKey in pageDetails.forms) {
@@ -156,9 +152,10 @@ export default class AutofillService implements AutofillServiceInterface {
                 continue;
             }
 
+            let uf = null;
             const formPasswordFields = passwordFields.filter(pf => formKey === pf.form);
             if (formPasswordFields.length > 0) {
-                let uf = this.findUsernameField(pageDetails, formPasswordFields[0], false, false, false);
+                uf = this.findUsernameField(pageDetails, formPasswordFields[0], false, false, false);
                 if (uf == null) {
                     // not able to find any viewable username fields. maybe there are some "hidden" ones?
                     uf = this.findUsernameField(pageDetails, formPasswordFields[0], true, true, false);
@@ -169,6 +166,17 @@ export default class AutofillService implements AutofillServiceInterface {
                     username: uf,
                     passwords: formPasswordFields,
                 });
+            } else {
+                // no password fields detected for this form - check for username just in case it's a separately rendered 2-step form
+                uf = this.findUsernameField(pageDetails, null, false, false, false, false, true, formKey);
+                if (uf != null) {
+                    formData.push({
+                        form: pageDetails.forms[formKey],
+                        password: null,
+                        username: uf,
+                        passwords: null,
+                    })
+                }
             }
         }
 
@@ -999,22 +1007,28 @@ export default class AutofillService implements AutofillServiceInterface {
     }
 
     private findUsernameField(pageDetails: AutofillPageDetails, passwordField: AutofillField, canBeHidden: boolean,
-        canBeReadOnly: boolean, includeWithoutForm: boolean, withoutFormOnly = false) {
+        canBeReadOnly: boolean, includeWithoutForm: boolean, withoutFormOnly = false, requireMatchingFieldIndex = false,
+        formKey: string = null) {
         let usernameField: AutofillField = null;
         for (let i = 0; i < pageDetails.fields.length; i++) {
             const f = pageDetails.fields[i];
-            if (f.elementNumber >= passwordField.elementNumber) {
+            if (passwordField != null && f.elementNumber >= passwordField.elementNumber) {
                 break;
             }
 
             if (!f.disabled && (canBeReadOnly || !f.readonly) &&
-                ((withoutFormOnly && f.form == null) || (!withoutFormOnly && includeWithoutForm || f.form === passwordField.form)) &&
+                ((withoutFormOnly && f.form == null) ||
+                (!withoutFormOnly && includeWithoutForm || (f.form === passwordField?.form) || (f.form === formKey)) &&
                 (canBeHidden || f.viewable) &&
-                (f.type === 'text' || f.type === 'email' || f.type === 'tel')) {
-                usernameField = f;
-
+                (f.type === 'text' || f.type === 'email' || f.type === 'tel'))) {
+                
+                if (!requireMatchingFieldIndex) {
+                    usernameField = f;
+                }
+                
                 if (this.findMatchingFieldIndex(f, UsernameFieldNames) > -1) {
                     // We found an exact match. No need to keep looking.
+                    usernameField = f;
                     break;
                 }
             }

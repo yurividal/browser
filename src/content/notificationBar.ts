@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', event => {
     const changePasswordButtonContainsNames = new Set(['pass', 'change', 'contras', 'senha']);
     let disabledAddLoginNotification = false;
     let disabledChangedPasswordNotification = false;
+    let previousUsername: string = null;
 
     chrome.storage.local.get('neverDomains', (ndObj: any) => {
         const domains = ndObj.neverDomains;
@@ -292,10 +293,13 @@ document.addEventListener('DOMContentLoaded', event => {
 
     function locateFields(formDataObj: any) {
         const inputs = Array.from(document.getElementsByTagName('input'));
-        formDataObj.usernameEl = locateField(formDataObj.formEl, formDataObj.data.username, inputs);
-        if (formDataObj.usernameEl != null && formDataObj.data.password != null) {
+        if (formDataObj.data.username != null) {
+            formDataObj.usernameEl = locateField(formDataObj.formEl, formDataObj.data.username, inputs);
+        }
+        if (formDataObj.data.password != null) {
             formDataObj.passwordEl = locatePassword(formDataObj.formEl, formDataObj.data.password, inputs, true);
         } else if (formDataObj.data.passwords != null) {
+            // TODO: have probably broken this logic
             formDataObj.passwordEls = [];
             formDataObj.data.passwords.forEach((pData: any) => {
                 const el = locatePassword(formDataObj.formEl, pData, inputs, false);
@@ -376,18 +380,31 @@ document.addEventListener('DOMContentLoaded', event => {
                 continue;
             }
             const disabledBoth = disabledChangedPasswordNotification && disabledAddLoginNotification;
-            if (!disabledBoth && formData[i].usernameEl != null && formData[i].passwordEl != null) {
+            if (!disabledBoth) {
                 const login = {
-                    username: formData[i].usernameEl.value,
-                    password: formData[i].passwordEl.value,
+                    username: formData[i].usernameEl?.value,
+                    password: formData[i].passwordEl?.value,
                     url: document.URL,
                 };
 
                 console.log("formSubmitted(): associated with formData and sending login for saving if not null:");
                 console.log(login);
 
-                if (login.username != null && login.username !== '' &&
-                    login.password != null && login.password !== '') {
+                let validUsername = !isNullorEmpty(login.username);
+                const validPassword = !isNullorEmpty(login.password);
+
+                if (validUsername && !validPassword) {
+                    // submitted first half of two-step form, remember username for later if required
+                    previousUsername = login.username;
+                    return;
+                } else if (!validUsername && validPassword &&
+                    !isNullorEmpty(previousUsername)) {
+                    // submitted second half of two-step form, use previous username
+                    login.username = previousUsername;
+                    validUsername = true;
+                }
+
+                if (validUsername && validPassword) {
                     processedForm(form);
                     sendPlatformMessage({
                         command: 'bgAddLogin',
@@ -631,5 +648,9 @@ document.addEventListener('DOMContentLoaded', event => {
 
     function sendPlatformMessage(msg: any) {
         chrome.runtime.sendMessage(msg);
+    }
+
+    function isNullorEmpty(str: string) {
+        return (str == null || str == '');
     }
 });
