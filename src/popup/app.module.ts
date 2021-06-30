@@ -1,6 +1,6 @@
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ToasterModule } from 'angular2-toaster';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { AppRoutingModule } from './app-routing.module';
 import { ServicesModule } from './services/services.module';
@@ -51,29 +51,29 @@ import { SendAddEditComponent } from './send/send-add-edit.component';
 import { SendGroupingsComponent } from './send/send-groupings.component';
 import { SendTypeComponent } from './send/send-type.component';
 
-import { A11yTitleDirective } from 'jslib/angular/directives/a11y-title.directive';
-import { ApiActionDirective } from 'jslib/angular/directives/api-action.directive';
-import { AutofocusDirective } from 'jslib/angular/directives/autofocus.directive';
-import { BlurClickDirective } from 'jslib/angular/directives/blur-click.directive';
-import { BoxRowDirective } from 'jslib/angular/directives/box-row.directive';
-import { FallbackSrcDirective } from 'jslib/angular/directives/fallback-src.directive';
-import { InputVerbatimDirective } from 'jslib/angular/directives/input-verbatim.directive';
-import { SelectCopyDirective } from 'jslib/angular/directives/select-copy.directive';
-import { StopClickDirective } from 'jslib/angular/directives/stop-click.directive';
-import { StopPropDirective } from 'jslib/angular/directives/stop-prop.directive';
-import { TrueFalseValueDirective } from 'jslib/angular/directives/true-false-value.directive';
+import { A11yTitleDirective } from 'jslib-angular/directives/a11y-title.directive';
+import { ApiActionDirective } from 'jslib-angular/directives/api-action.directive';
+import { AutofocusDirective } from 'jslib-angular/directives/autofocus.directive';
+import { BlurClickDirective } from 'jslib-angular/directives/blur-click.directive';
+import { BoxRowDirective } from 'jslib-angular/directives/box-row.directive';
+import { FallbackSrcDirective } from 'jslib-angular/directives/fallback-src.directive';
+import { InputVerbatimDirective } from 'jslib-angular/directives/input-verbatim.directive';
+import { SelectCopyDirective } from 'jslib-angular/directives/select-copy.directive';
+import { StopClickDirective } from 'jslib-angular/directives/stop-click.directive';
+import { StopPropDirective } from 'jslib-angular/directives/stop-prop.directive';
+import { TrueFalseValueDirective } from 'jslib-angular/directives/true-false-value.directive';
 
-import { ColorPasswordPipe } from 'jslib/angular/pipes/color-password.pipe';
-import { I18nPipe } from 'jslib/angular/pipes/i18n.pipe';
-import { SearchCiphersPipe } from 'jslib/angular/pipes/search-ciphers.pipe';
+import { ColorPasswordPipe } from 'jslib-angular/pipes/color-password.pipe';
+import { I18nPipe } from 'jslib-angular/pipes/i18n.pipe';
+import { SearchCiphersPipe } from 'jslib-angular/pipes/search-ciphers.pipe';
 
 import { ActionButtonsComponent } from './components/action-buttons.component';
-import { CiphersListComponent } from './components/ciphers-list.component';
+import { CipherRowComponent } from './components/cipher-row.component';
 import { PopOutComponent } from './components/pop-out.component';
 import { SendListComponent } from './components/send-list.component';
 
-import { CalloutComponent } from 'jslib/angular/components/callout.component';
-import { IconComponent } from 'jslib/angular/components/icon.component';
+import { CalloutComponent } from 'jslib-angular/components/callout.component';
+import { IconComponent } from 'jslib-angular/components/icon.component';
 
 import {
     CurrencyPipe,
@@ -170,8 +170,8 @@ registerLocaleData(localeZhTw, 'zh-TW');
         AppRoutingModule,
         ServicesModule,
         ToasterModule.forRoot(),
-        InfiniteScrollModule,
         DragDropModule,
+        ScrollingModule,
     ],
     declarations: [
         A11yTitleDirective,
@@ -184,8 +184,8 @@ registerLocaleData(localeZhTw, 'zh-TW');
         BlurClickDirective,
         BoxRowDirective,
         CalloutComponent,
+        CipherRowComponent,
         CiphersComponent,
-        CiphersListComponent,
         CollectionsComponent,
         ColorPasswordPipe,
         CurrentTabComponent,
