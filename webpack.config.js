@@ -14,7 +14,7 @@ const ENV = process.env.ENV = process.env.NODE_ENV;
 
 const moduleRules = [
     {
-        test: /\.ts$/,
+        test: /(?<!\.worker)\.ts$/,
         enforce: 'pre',
         loader: 'tslint-loader',
     },
