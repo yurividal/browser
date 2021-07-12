@@ -116,7 +116,12 @@ const plugins = [
         sourceMap: true,
     }),
     new WorkerPlugin({
-        plugins: ['AngularCompilerPlugin'],
+        plugins: [
+            new AngularCompilerPlugin({
+                tsConfigPath: 'jslib/common/tsconfig.worker.json',
+                sourceMap: true
+            })
+        ],
         globalObject: 'self'
     }),
     new CleanWebpackPlugin({
