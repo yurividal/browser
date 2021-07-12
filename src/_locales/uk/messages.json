@@ -3,8 +3,8 @@
     "message": "Bitwarden"
   },
   "extName": {
-    "message": "Bitwarden - Безкоштовний менеджер паролів",
-    "description": "Extension name"
+    "message": "Bitwarden",
+    "description": "Extension name, MUST be less than 40 characters (Safari restriction)"
   },
   "extDesc": {
     "message": "Bitwarden - це захищений і безкоштовний менеджер паролів для всіх ваших пристроїв.",
@@ -149,6 +149,9 @@
   },
   "save": {
     "message": "Зберегти"
+  },
+  "move": {
+    "message": "Перемістити"
   },
   "addFolder": {
     "message": "Додати теку"
@@ -596,6 +599,10 @@
     "message": "Світла",
     "description": "Light color"
   },
+  "solarizedDark": {
+    "message": "Solarized темна",
+    "description": "'Solarized' is a noun and the name of a color scheme. It should not be translated."
+  },
   "exportVault": {
     "message": "Експорт сховища"
   },
@@ -624,23 +631,33 @@
   "shared": {
     "message": "Спільні"
   },
-  "shareVault": {
-    "message": "Поділитися своїм сховищем"
+  "learnOrg": {
+    "message": "Докладніше про організації"
   },
-  "shareVaultConfirmation": {
-    "message": "Bitwarden дозволяє вам надавати доступ до свого сховища іншим за допомогою облікового запису організації. Чи не бажаєте перейти на вебсайт bitwarden.com, щоб дізнатися більше?"
+  "learnOrgConfirmation": {
+    "message": "Bitwarden дозволяє вам надавати доступ до записів свого сховища іншим за допомогою облікового запису організації. Бажаєте перейти на веб-сайт bitwarden.com, щоб дізнатися більше?"
   },
-  "shareItem": {
-    "message": "Поділитися записом"
+  "moveToOrganization": {
+    "message": "Перемістити до організації"
   },
   "share": {
     "message": "Поділитися"
   },
-  "sharedItem": {
-    "message": "Спільний запис"
+  "movedItemToOrg": {
+    "message": "$ITEMNAME$ переміщено до $ORGNAME$",
+    "placeholders": {
+      "itemname": {
+        "content": "$1",
+        "example": "Secret Item"
+      },
+      "orgname": {
+        "content": "$2",
+        "example": "Company Name"
+      }
+    }
   },
-  "shareDesc": {
-    "message": "Оберіть організацію, з якою хочете поділитися. Зробивши це, ви передасте доступ до цього запису іншій організації та більше не будете його одноосібним власником."
+  "moveToOrgDesc": {
+    "message": "Виберіть організацію, до якої ви бажаєте перемістити цей запис. При переміщенні до організації власність запису передається тій організації. Ви більше не будете єдиним власником цього запису після переміщення."
   },
   "learnMore": {
     "message": "Докладніше"
@@ -682,7 +699,7 @@
     "message": "Оберіть файл."
   },
   "maxFileSize": {
-    "message": "Максимальний розмір файлу 100 Мб."
+    "message": "Максимальний розмір файлу 500 Мб."
   },
   "featureUnavailable": {
     "message": "Функція недоступна"
@@ -798,6 +815,15 @@
   "insertU2f": {
     "message": "Вставте свій ключ безпеки в USB порт комп'ютера. Якщо в нього є кнопка, натисніть її."
   },
+  "webAuthnNewTab": {
+    "message": "Щоб почати перевірку WebAuthn 2FA, натисніть кнопку внизу для відкриття нової вкладки і дотримуйтесь зазначених на ній настанов."
+  },
+  "webAuthnNewTabOpen": {
+    "message": "Відкрити нову вкладку"
+  },
+  "webAuthnAuthenticate": {
+    "message": "Авторизація WebAuthn"
+  },
   "loginUnavailable": {
     "message": "Вхід недоступний"
   },
@@ -837,11 +863,11 @@
     "message": "Авторизуйтесь за допомогою Duo Security для вашої організації з використанням мобільного додатку Duo Mobile, SMS, телефонного виклику, або ключа безпеки U2F.",
     "description": "'Duo Security' and 'Duo Mobile' are product names and should not be translated."
   },
-  "u2fDesc": {
-    "message": "Використовуйте будь-який ключ безпеки FIDO U2F для доступу до сховища."
+  "webAuthnTitle": {
+    "message": "FIDO2 WebAuthn"
   },
-  "u2fTitle": {
-    "message": "Ключ безпеки FIDO U2F"
+  "webAuthnDesc": {
+    "message": "Використовуйте будь-який ключ безпеки WebAuthn для доступу до сховища."
   },
   "emailTitle": {
     "message": "Е-пошта"
@@ -890,6 +916,24 @@
   },
   "experimentalFeature": {
     "message": "Це експериментальна функція. При її використанні ви берете ризик на себе."
+  },
+  "defaultAutoFillOnPageLoad": {
+    "message": "Типове налаштування автозаповнення для записів входу"
+  },
+  "defaultAutoFillOnPageLoadDesc": {
+    "message": "Після увімкнення автозаповнення на сторінці ви можете увімкнути чи вимкнути цю функцію для окремих записів входу. Це налаштування є типовим для записів входу, які не мають окремого налаштування."
+  },
+  "itemAutoFillOnPageLoad": {
+    "message": "Автозаповнення на сторінці (якщо не увімкнено в налаштуваннях)"
+  },
+  "autoFillOnPageLoadUseDefault": {
+    "message": "Типове налаштування"
+  },
+  "autoFillOnPageLoadYes": {
+    "message": "Автозаповнення на сторінці"
+  },
+  "autoFillOnPageLoadNo": {
+    "message": "Не заповнювати автоматично"
   },
   "commandOpenPopup": {
     "message": "Відкрити сховище у виринаючому вікні"
@@ -944,6 +988,12 @@
   },
   "disableFaviconDesc": {
     "message": "Впізнавані піктограми вебсайтів додаються біля кожного запису вашого сховища."
+  },
+  "disableBadgeCounter": {
+    "message": "Вимкнути лічильник значка"
+  },
+  "disableBadgeCounterDesc": {
+    "message": "Лічильник значка показує кількість записів у сховищі для поточної сторінки."
   },
   "cardholderName": {
     "message": "Ім'я власника картки"
@@ -1281,7 +1331,7 @@
     "message": "Клонувати"
   },
   "passwordGeneratorPolicyInEffect": {
-    "message": "Політика однієї або декількох організацій впливає на ваші параметри генерування."
+    "message": "На параметри генератора впливають одна чи декілька політик організації."
   },
   "vaultTimeoutAction": {
     "message": "Дія після часу очікування сховища"
@@ -1334,7 +1384,7 @@
     "message": "Встановити головний пароль"
   },
   "masterPasswordPolicyInEffect": {
-    "message": "Одна або декілька політик організації зобов'язують дотримання таких вимог для головного пароля:"
+    "message": "Одна або декілька політик організації вимагають дотримання таких вимог для головного пароля:"
   },
   "policyInEffectMinComplexity": {
     "message": "Мінімальний рівень складності $SCORE$",
@@ -1448,10 +1498,10 @@
     "message": "Без дозволу з'єднання з програмою Bitwarden на комп'ютері неможливо використовувати біометрію в розширенні браузера. Спробуйте знову."
   },
   "nativeMessaginPermissionSidebarTitle": {
-    "message": "Permission request error"
+    "message": "Помилка запиту дозволу"
   },
   "nativeMessaginPermissionSidebarDesc": {
-    "message": "This action cannot be done in the sidebar, please retry the action in the popup or popout."
+    "message": "Цю дію неможливо виконати в бічній панелі. Спробуйте знову в спливному чи окремому вікні."
   },
   "personalOwnershipSubmitError": {
     "message": "У зв'язку з корпоративною політикою, вам не дозволено зберігати записи до особистого сховища. Змініть налаштування власності на організацію та виберіть серед доступних збірок."
@@ -1643,6 +1693,9 @@
     "message": "Відправлення змінено",
     "description": "'Send' is a noun and the name of a feature called 'Bitwarden Send'. It should not be translated."
   },
+  "sendLinuxChromiumFileWarning": {
+    "message": "Щоб вибрати файл, відкрийте розширення в бічній панелі (якщо можливо) або в новому вікні, натиснувши цей банер."
+  },
   "sendFirefoxFileWarning": {
     "message": "Щоб вибрати файл з використанням Firefox, відкрийте розширення в бічній панелі або в новому вікні, натиснувши цей банер."
   },
@@ -1678,5 +1731,26 @@
   },
   "dateParsingError": {
     "message": "При збереженні дат видалення і терміну дії виникла помилка."
+  },
+  "hideEmail": {
+    "message": "Приховувати мою адресу електронної пошти від отримувачів."
+  },
+  "sendOptionsPolicyInEffect": {
+    "message": "На параметри відправлень впливають одна чи декілька політик організації."
+  },
+  "passwordPrompt": {
+    "message": "Повторний запит головного пароля"
+  },
+  "passwordConfirmation": {
+    "message": "Підтвердження головного пароля"
+  },
+  "passwordConfirmationDesc": {
+    "message": "Ця дія захищена. Щоб продовжити, повторно введіть головний пароль."
+  },
+  "emailVerificationRequired": {
+    "message": "Необхідно підтвердити е-пошту"
+  },
+  "emailVerificationRequiredDesc": {
+    "message": "Для використання цієї функції необхідно підтвердити електронну пошту. Ви можете виконати підтвердження у веб сховищі."
   }
 }

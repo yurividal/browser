@@ -4,7 +4,7 @@
   },
   "extName": {
     "message": "Bitwarden — Fri passordbehandling",
-    "description": "Extension name"
+    "description": "Extension name, MUST be less than 40 characters (Safari restriction)"
   },
   "extDesc": {
     "message": "Bitwarden er en sikker og fri passordbehandler for alle dine PCer og mobiler.",
@@ -149,6 +149,9 @@
   },
   "save": {
     "message": "Lagre"
+  },
+  "move": {
+    "message": "Move"
   },
   "addFolder": {
     "message": "Legg til en mappe"
@@ -596,6 +599,10 @@
     "message": "Lyst",
     "description": "Light color"
   },
+  "solarizedDark": {
+    "message": "Solarized Dark",
+    "description": "'Solarized' is a noun and the name of a color scheme. It should not be translated."
+  },
   "exportVault": {
     "message": "Eksporter hvelvet"
   },
@@ -624,23 +631,33 @@
   "shared": {
     "message": "Delt"
   },
-  "shareVault": {
-    "message": "Del hvelvet ditt"
+  "learnOrg": {
+    "message": "Learn about Organizations"
   },
-  "shareVaultConfirmation": {
-    "message": "Bitwarden lar deg dele hvelvet ditt med andre ved å bruke en organisasjonskonto. Vil du besøke bitwarden.com-nettstedet for å lære mer?"
+  "learnOrgConfirmation": {
+    "message": "Bitwarden allows you to share your vault items with others by using an organization. Would you like to visit the bitwarden.com website to learn more?"
   },
-  "shareItem": {
-    "message": "Del objektet"
+  "moveToOrganization": {
+    "message": "Move to Organization"
   },
   "share": {
     "message": "Del"
   },
-  "sharedItem": {
-    "message": "Delte objektet"
+  "movedItemToOrg": {
+    "message": "$ITEMNAME$ moved to $ORGNAME$",
+    "placeholders": {
+      "itemname": {
+        "content": "$1",
+        "example": "Secret Item"
+      },
+      "orgname": {
+        "content": "$2",
+        "example": "Company Name"
+      }
+    }
   },
-  "shareDesc": {
-    "message": "Velg en organisasjon som du ønsker å dele denne gjenstanden med. Deling overfører gjenstandens eierskap til organisasjonen. Du vil ikke lenger være den direkte eieren av denne gjenstanden når den først har blitt delt."
+  "moveToOrgDesc": {
+    "message": "Choose an organization that you wish to move this item to. Moving to an organization transfers ownership of the item to that organization. You will no longer be the direct owner of this item once it has been moved."
   },
   "learnMore": {
     "message": "Lær mer"
@@ -682,7 +699,7 @@
     "message": "Velg en fil."
   },
   "maxFileSize": {
-    "message": "Den maksimale filstørrelsen er 100 MB."
+    "message": "Den maksimale filstørrelsen er 500 MB."
   },
   "featureUnavailable": {
     "message": "Egenskapen er utilgjengelig"
@@ -798,6 +815,15 @@
   "insertU2f": {
     "message": "Sett din sikkerhetsnøkkel inn i din datamaskins USB-uttak. Dersom den har en knapp, trykk på den."
   },
+  "webAuthnNewTab": {
+    "message": "To start the WebAuthn 2FA verification. Click the button below to open a new tab and follow the instructions provided in the new tab."
+  },
+  "webAuthnNewTabOpen": {
+    "message": "Open new tab"
+  },
+  "webAuthnAuthenticate": {
+    "message": "Authenticate WebAuthn"
+  },
   "loginUnavailable": {
     "message": "Innloggingen er utilgjengelig"
   },
@@ -837,11 +863,11 @@
     "message": "Verifiser med Duo Security for din organisasjon gjennom Duo Mobile-appen, SMS, telefonsamtale, eller en U2F-sikkerhetsnøkkel.",
     "description": "'Duo Security' and 'Duo Mobile' are product names and should not be translated."
   },
-  "u2fDesc": {
-    "message": "Bruk enhver FIDO U2F-aktivert sikkerhetsnøkkel til å få tilgang til kontoen din."
+  "webAuthnTitle": {
+    "message": "FIDO2 WebAuthn"
   },
-  "u2fTitle": {
-    "message": "FIDO U2F-sikkerhetsnøkkel"
+  "webAuthnDesc": {
+    "message": "Use any WebAuthn enabled security key to access your account."
   },
   "emailTitle": {
     "message": "E-post"
@@ -890,6 +916,24 @@
   },
   "experimentalFeature": {
     "message": "Dette er for øyeblikket en eksperimentell egenskap. Bruk det på din egen risiko."
+  },
+  "defaultAutoFillOnPageLoad": {
+    "message": "Default autofill setting for login items"
+  },
+  "defaultAutoFillOnPageLoadDesc": {
+    "message": "After enabling Auto-fill on Page Load, you can enable or disable the feature for individual login items. This is the default setting for login items that are not separately configured."
+  },
+  "itemAutoFillOnPageLoad": {
+    "message": "Auto-fill on Page Load (if enabled in Options)"
+  },
+  "autoFillOnPageLoadUseDefault": {
+    "message": "Use default setting"
+  },
+  "autoFillOnPageLoadYes": {
+    "message": "Auto-fill on page load"
+  },
+  "autoFillOnPageLoadNo": {
+    "message": "Do not auto-fill on page load"
   },
   "commandOpenPopup": {
     "message": "Åpne hvelv-vindu"
@@ -944,6 +988,12 @@
   },
   "disableFaviconDesc": {
     "message": "Nettstedsikoner sørger for et gjenkjennelig bilde ved siden av hver innloggingsgjenstand i hvelvet ditt."
+  },
+  "disableBadgeCounter": {
+    "message": "Disable Badge Counter"
+  },
+  "disableBadgeCounterDesc": {
+    "message": "Badge counter indicates how many logins you have for the current page in your vault."
   },
   "cardholderName": {
     "message": "Kortholderens navn"
@@ -1643,6 +1693,9 @@
     "message": "Edited Send",
     "description": "'Send' is a noun and the name of a feature called 'Bitwarden Send'. It should not be translated."
   },
+  "sendLinuxChromiumFileWarning": {
+    "message": "In order to choose a file, open the extension in the sidebar (if possible) or pop out to a new window by clicking this banner."
+  },
   "sendFirefoxFileWarning": {
     "message": "In order to choose a file using Firefox, open the extension in the sidebar or pop out to a new window by clicking this banner."
   },
@@ -1678,5 +1731,26 @@
   },
   "dateParsingError": {
     "message": "There was an error saving your deletion and expiration dates."
+  },
+  "hideEmail": {
+    "message": "Hide my email address from recipients."
+  },
+  "sendOptionsPolicyInEffect": {
+    "message": "One or more organization policies are affecting your Send options."
+  },
+  "passwordPrompt": {
+    "message": "Master password re-prompt"
+  },
+  "passwordConfirmation": {
+    "message": "Master password confirmation"
+  },
+  "passwordConfirmationDesc": {
+    "message": "This action is protected. To continue, please re-enter your master password to verify your identity."
+  },
+  "emailVerificationRequired": {
+    "message": "Email Verification Required"
+  },
+  "emailVerificationRequiredDesc": {
+    "message": "You must verify your email to use this feature. You can verify your email in the web vault."
   }
 }

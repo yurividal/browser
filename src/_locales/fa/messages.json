@@ -4,7 +4,7 @@
   },
   "extName": {
     "message": "Bitwarden - مدیریت کلمه عبور رایگان",
-    "description": "Extension name"
+    "description": "Extension name, MUST be less than 40 characters (Safari restriction)"
   },
   "extDesc": {
     "message": "یک مدیریت کننده کلمه عبور رایگان برای تمامی دستگاههایتان.",
@@ -149,6 +149,9 @@
   },
   "save": {
     "message": "ذخیره"
+  },
+  "move": {
+    "message": "انتقال"
   },
   "addFolder": {
     "message": "افزودن پوشه"
@@ -596,6 +599,10 @@
     "message": "روشن",
     "description": "Light color"
   },
+  "solarizedDark": {
+    "message": "تاریک خورشیدی",
+    "description": "'Solarized' is a noun and the name of a color scheme. It should not be translated."
+  },
   "exportVault": {
     "message": "صادر کردن گاوصندوق"
   },
@@ -624,23 +631,33 @@
   "shared": {
     "message": "اشتراک گذاری شد"
   },
-  "shareVault": {
-    "message": "اشتراک گذاری گاوصندوقتان"
+  "learnOrg": {
+    "message": "درباره سازمانها اطلاعات کسب کنید"
   },
-  "shareVaultConfirmation": {
-    "message": "Bitwarden به شما اجازه می دهد با استفاده از سازماندهی حساب، گاوصندوقهای خود را با دیگران به اشتراک بگذارید. آیا مایل به بازدید از وب سایت bitwarden.com برای کسب اطلاعات بیشتر هستید؟"
+  "learnOrgConfirmation": {
+    "message": "Bitwarden به شما اجازه می دهد با استفاده از یک سازمان، موارد گاوصندوق خود را با دیگران به اشتراک بگذارید. آیا مایل به بازدید از وب سایت bitwarden.com برای کسب اطلاعات بیشتر هستید؟"
   },
-  "shareItem": {
-    "message": "اشتراک گذاری مورد"
+  "moveToOrganization": {
+    "message": "انتقال به سازمان"
   },
   "share": {
     "message": "اشتراک گذاری"
   },
-  "sharedItem": {
-    "message": "مورد اشتراک گذاری شد"
+  "movedItemToOrg": {
+    "message": "$ITEMNAME$ منتقل شد به $ORGNAME$",
+    "placeholders": {
+      "itemname": {
+        "content": "$1",
+        "example": "Secret Item"
+      },
+      "orgname": {
+        "content": "$2",
+        "example": "Company Name"
+      }
+    }
   },
-  "shareDesc": {
-    "message": "Choose an organization that you wish to share this item with. Sharing transfers ownership of the item to the organization. You will no longer be the direct owner of this item once it has been shared."
+  "moveToOrgDesc": {
+    "message": "سازمانی را انتخاب کنید که می خواهید این مورد را به آن منتقل کنید. انتقال به یک سازمان، مالکیت مورد را به آن سازمان منتقل می کند. پس از انتقال این مورد، دیگر مالک مستقیم آن نخواهید بود."
   },
   "learnMore": {
     "message": "بیشتر بدانید"
@@ -682,7 +699,7 @@
     "message": "انتخاب یک فایل."
   },
   "maxFileSize": {
-    "message": "بیشترین حجم فایل 100 مگابایت است."
+    "message": "بیشترین حجم فایل 500 مگابایت است."
   },
   "featureUnavailable": {
     "message": "ویژگی موجود نیست"
@@ -798,6 +815,15 @@
   "insertU2f": {
     "message": "کلید امنیتی خود را وارد پورت USB رایانه کنید، اگر دکمه ای دارد آن را بفشارید."
   },
+  "webAuthnNewTab": {
+    "message": "تأیید WebAuthn 2FA را در برگه جدید ادامه دهید."
+  },
+  "webAuthnNewTabOpen": {
+    "message": "باز کردن زبانه جدید"
+  },
+  "webAuthnAuthenticate": {
+    "message": "تأیید اعتبار در WebAuthn"
+  },
   "loginUnavailable": {
     "message": "ورود به سیستم موجود نیست"
   },
@@ -837,11 +863,11 @@
     "message": "Duo Security را برای سازماندهی خود با استفاده از برنامه Duo Mobile، SMS، تماس تلفنی یا کلید امنیتی U2F تأیید کنید.",
     "description": "'Duo Security' and 'Duo Mobile' are product names and should not be translated."
   },
-  "u2fDesc": {
-    "message": "از هر FIDO استفاده کنید U2F کلید امنیتی را فعال کنید تا به حساب کاربریتان دسترسی یابید."
+  "webAuthnTitle": {
+    "message": "FIDO2 WebAuthn\n"
   },
-  "u2fTitle": {
-    "message": "کلید امنیتی FIDO U2F"
+  "webAuthnDesc": {
+    "message": "برای دسترسی به حساب خود از هر کلید امنیتی فعال شده WebAuthn استفاده کنید."
   },
   "emailTitle": {
     "message": "ایمیل"
@@ -890,6 +916,24 @@
   },
   "experimentalFeature": {
     "message": "در حال حاضر این یک ویژگی آزمایشی است. با مسئولیت خود استفاده کنید."
+  },
+  "defaultAutoFillOnPageLoad": {
+    "message": "تنظیم خودکار پیش فرض برای موارد ورود به سیستم"
+  },
+  "defaultAutoFillOnPageLoadDesc": {
+    "message": "پس از فعال کردن پرکردن خودکار بارگذاری صفحه، می توانید این ویژگی را برای موارد ورود به سیستم جداگانه فعال یا غیرفعال کنید. این تنظیمات پیش فرض برای موارد ورود به سیستم است که به طور جداگانه پیکربندی نشده اند."
+  },
+  "itemAutoFillOnPageLoad": {
+    "message": "پر کردن خودکار بارگذاری صفحه (درصورت فعال بودن در گزینه ها)"
+  },
+  "autoFillOnPageLoadUseDefault": {
+    "message": "استفاده از تنظيمات پيشفرض"
+  },
+  "autoFillOnPageLoadYes": {
+    "message": "بارگذاری صفحه را به طور خودکار پر کن"
+  },
+  "autoFillOnPageLoadNo": {
+    "message": "بارگذاری صفحه را به طور خودکار پر نکن"
   },
   "commandOpenPopup": {
     "message": "بازکردن پنجره گاوصندوق"
@@ -944,6 +988,12 @@
   },
   "disableFaviconDesc": {
     "message": "آیکون های وبسایت یک تصویر قابل تشخیص در کنار هر داده ورودی ارائه میدهد."
+  },
+  "disableBadgeCounter": {
+    "message": "شمارنده نشان را غیرفعال کن"
+  },
+  "disableBadgeCounterDesc": {
+    "message": "شمارنده نشان، نشان می دهد که چه تعداد ورود به سیستم برای صفحه فعلی در گاو‌صندوق خود دارید."
   },
   "cardholderName": {
     "message": "نام صاحب کارت"
@@ -1448,10 +1498,10 @@
     "message": "بدون اجازه ارتباط با برنامه دسکتاپ Bitwarden ، نمی توانیم بیومتریک را در افزونه مرورگر ارائه دهیم. لطفا دوباره تلاش کنید."
   },
   "nativeMessaginPermissionSidebarTitle": {
-    "message": "Permission request error"
+    "message": "خطای درخواست مجوز"
   },
   "nativeMessaginPermissionSidebarDesc": {
-    "message": "This action cannot be done in the sidebar, please retry the action in the popup or popout."
+    "message": "این عمل را نمی توان در نوار کناری انجام داد، لطفاً اقدام را در پنجره بازشو یا پنجره بازخوانی کنید."
   },
   "personalOwnershipSubmitError": {
     "message": "به دلیل خط مشی Enterprise ، برای ذخیره موارد در گاوصندوق شخصی خود محدود شده اید. گزینه مالکیت را به یک سازمان تغییر دهید و مجموعه های موجود را انتخاب کنید."
@@ -1643,6 +1693,9 @@
     "message": "ارسال جدید ویرایش شد",
     "description": "'Send' is a noun and the name of a feature called 'Bitwarden Send'. It should not be translated."
   },
+  "sendLinuxChromiumFileWarning": {
+    "message": "برای انتخاب پرونده، پسوند را در نوار کناری باز کنید (در صورت امکان) یا با کلیک بر روی این آگهی به پنجره جدیدی باز شوید."
+  },
   "sendFirefoxFileWarning": {
     "message": "برای انتخاب یک فایل با استفاده از Firefox، افزونه را در نوار کناری باز کنید یا با کلیک بر روی این بنر به پنجره جدید باز شوید."
   },
@@ -1678,5 +1731,26 @@
   },
   "dateParsingError": {
     "message": "هنگام ذخیره حذف و تاریخ انقضا شما خطایی روی داد."
+  },
+  "hideEmail": {
+    "message": "آدرس ایمیلم را از گیرندگان مخفی کن."
+  },
+  "sendOptionsPolicyInEffect": {
+    "message": "یک یا چند سیاست سازمان بر گزینه های ارسال شما تأثیر می گذارد."
+  },
+  "passwordPrompt": {
+    "message": "کلمه عبور اصلی دوباره تولید می شود"
+  },
+  "passwordConfirmation": {
+    "message": "تأیید کلمه عبور اصلی"
+  },
+  "passwordConfirmationDesc": {
+    "message": "این عمل محافظت می شود. برای ادامه، لطفاً کلمه ورود اصلی خود را دوباره وارد کنید تا هویتان را تأیید کنید."
+  },
+  "emailVerificationRequired": {
+    "message": "تایید ایمیل لازم است"
+  },
+  "emailVerificationRequiredDesc": {
+    "message": "برای استفاده از این ویژگی باید ایمیل خود را تأیید کنید. می توانید ایمیل خود را در گاوصندوق وب تأیید کنید."
   }
 }

@@ -4,7 +4,7 @@
   },
   "extName": {
     "message": "Bitwarden - 免费密码管理器",
-    "description": "Extension name"
+    "description": "Extension name, MUST be less than 40 characters (Safari restriction)"
   },
   "extDesc": {
     "message": "Bitwarden 是一个安全且免费的跨平台密码管理器。",
@@ -53,7 +53,7 @@
     "message": "标签页"
   },
   "myVault": {
-    "message": "我的密码库"
+    "message": "密码库"
   },
   "tools": {
     "message": "工具"
@@ -68,7 +68,7 @@
     "message": "复制密码"
   },
   "copyNote": {
-    "message": "复制笔记"
+    "message": "复制备注"
   },
   "copyUri": {
     "message": "复制 URI"
@@ -149,6 +149,9 @@
   },
   "save": {
     "message": "保存"
+  },
+  "move": {
+    "message": "移动"
   },
   "addFolder": {
     "message": "添加文件夹"
@@ -231,7 +234,7 @@
     "message": "符号最少个数"
   },
   "avoidAmbChar": {
-    "message": "避免含糊的字符"
+    "message": "避免易混淆的字符"
   },
   "searchVault": {
     "message": "搜索密码库"
@@ -261,10 +264,10 @@
     "message": "收藏"
   },
   "notes": {
-    "message": "笔记"
+    "message": "备注"
   },
   "note": {
-    "message": "笔记"
+    "message": "备注"
   },
   "editItem": {
     "message": "编辑项目"
@@ -489,7 +492,7 @@
     }
   },
   "newUri": {
-    "message": "新 URI"
+    "message": "新增 URI"
   },
   "addedItem": {
     "message": "项目已添加"
@@ -596,6 +599,10 @@
     "message": "亮",
     "description": "Light color"
   },
+  "solarizedDark": {
+    "message": "过曝暗",
+    "description": "'Solarized' is a noun and the name of a color scheme. It should not be translated."
+  },
   "exportVault": {
     "message": "导出密码库"
   },
@@ -624,23 +631,33 @@
   "shared": {
     "message": "已共享"
   },
-  "shareVault": {
-    "message": "共享你的密码库"
+  "learnOrg": {
+    "message": "了解组织"
   },
-  "shareVaultConfirmation": {
-    "message": "Bitwarden 允许您使用组织帐户与他人共享您的密码库。您想访问 bitwarden.com 网站以了解更多内容吗？"
+  "learnOrgConfirmation": {
+    "message": "Bitwarden 允许您使用组织与他人共享您的密码库项目。要访问 bitwarden.com 网站以了解更多内容吗？"
   },
-  "shareItem": {
-    "message": "共享项目"
+  "moveToOrganization": {
+    "message": "移动到组织"
   },
   "share": {
     "message": "共享"
   },
-  "sharedItem": {
-    "message": "项目已共享"
+  "movedItemToOrg": {
+    "message": "$ITEMNAME$ 已移动到 $ORGNAME$",
+    "placeholders": {
+      "itemname": {
+        "content": "$1",
+        "example": "Secret Item"
+      },
+      "orgname": {
+        "content": "$2",
+        "example": "Company Name"
+      }
+    }
   },
-  "shareDesc": {
-    "message": "选择您希望与之共享此项目的组织。共享操作将会把此项目的所有权转移到该组织。一旦共享，您将不再是此项目的直接所有者。"
+  "moveToOrgDesc": {
+    "message": "选择一个您想将此项目移至的组织。移动到组织会将该项目的所有权转让给该组织。移动后，您将不再是此项目的直接所有者。"
   },
   "learnMore": {
     "message": "进一步了解"
@@ -682,7 +699,7 @@
     "message": "选择一个文件。"
   },
   "maxFileSize": {
-    "message": "文件最大为 100 MB。"
+    "message": "文件最大为 500 MB。"
   },
   "featureUnavailable": {
     "message": "功能不可用"
@@ -798,6 +815,15 @@
   "insertU2f": {
     "message": "将您的安全钥匙插入计算机的 USB 端口。如果它有一个按钮，按下它。"
   },
+  "webAuthnNewTab": {
+    "message": "要开始 WebAuthn 2FA 验证，请点击下面的按钮打开一个新标签页，并按照新标签页中提供的说明操作。"
+  },
+  "webAuthnNewTabOpen": {
+    "message": "打开新标签页"
+  },
+  "webAuthnAuthenticate": {
+    "message": "验证 WebAuthn"
+  },
   "loginUnavailable": {
     "message": "登录不可用"
   },
@@ -837,11 +863,11 @@
     "message": "为您的组织使用 Duo Security 的 Duo 移动应用、短信、电话或 U2F 安全钥匙来进行验证。",
     "description": "'Duo Security' and 'Duo Mobile' are product names and should not be translated."
   },
-  "u2fDesc": {
-    "message": "使用任何支持 FIDO U2F 的安全钥匙来访问您的帐户。"
+  "webAuthnTitle": {
+    "message": "FIDO2 WebAuthn"
   },
-  "u2fTitle": {
-    "message": "FIDO U2F 安全钥匙"
+  "webAuthnDesc": {
+    "message": "使用任何启用了 WebAuthn 的安全钥匙访问您的帐户。"
   },
   "emailTitle": {
     "message": "电子邮件"
@@ -890,6 +916,24 @@
   },
   "experimentalFeature": {
     "message": "目前这是一项实验功能。使用需自担风险。"
+  },
+  "defaultAutoFillOnPageLoad": {
+    "message": "登录项目的默认自动填充设置"
+  },
+  "defaultAutoFillOnPageLoadDesc": {
+    "message": "启用页面加载时自动填充后，您可以为单个登录项目启用或禁用此功能。这是未单独配置的登录项目的默认设置。"
+  },
+  "itemAutoFillOnPageLoad": {
+    "message": "页面加载时自动填充（如果选项中已启用）"
+  },
+  "autoFillOnPageLoadUseDefault": {
+    "message": "使用默认设置"
+  },
+  "autoFillOnPageLoadYes": {
+    "message": "页面加载时自动填充"
+  },
+  "autoFillOnPageLoadNo": {
+    "message": "页面加载时不自动填充"
   },
   "commandOpenPopup": {
     "message": "在弹出框中打开密码库"
@@ -944,6 +988,12 @@
   },
   "disableFaviconDesc": {
     "message": "在您密码库的每个登录项目旁边显示一个可识别的图标。"
+  },
+  "disableBadgeCounter": {
+    "message": "禁用角标计数器"
+  },
+  "disableBadgeCounterDesc": {
+    "message": "角标计数器表示您的密码库中可用于当前页面的登录的数量。"
   },
   "cardholderName": {
     "message": "持卡人姓名"
@@ -1174,7 +1224,7 @@
     "description": "Toggle the display of the URIs of the currently open tabs in the browser."
   },
   "currentUri": {
-    "message": "当前网址",
+    "message": "当前 URI",
     "description": "The URI of one of the current open tabs in the browser."
   },
   "organization": {
@@ -1400,10 +1450,10 @@
     "message": "请验证桌面应用程序显示的指纹为： "
   },
   "desktopIntegrationDisabledTitle": {
-    "message": "浏览器集成未启用"
+    "message": "浏览器整合未启用"
   },
   "desktopIntegrationDisabledDesc": {
-    "message": "浏览器集成在 Bitwarden 桌面应用程序中未启用。请在桌面应用程序的设置中启用它。"
+    "message": "浏览器整合在 Bitwarden 桌面应用程序中未启用。请在桌面应用程序的设置中启用它。"
   },
   "startDesktopTitle": {
     "message": "启动 Bitwarden 桌面应用程序"
@@ -1418,7 +1468,7 @@
     "message": "操作被桌面应用程序取消"
   },
   "nativeMessagingInvalidEncryptionDesc": {
-    "message": "桌面应用程序废止了安全通道。请重试此操作"
+    "message": "桌面应用程序废止了安全通信通道。请重试此操作"
   },
   "nativeMessagingInvalidEncryptionTitle": {
     "message": "桌面通信已中断"
@@ -1448,10 +1498,10 @@
     "message": "没有与 Bitwarden 桌面应用程序通信的权限，我们无法在浏览器扩展中提供生物识别。请再试一次。"
   },
   "nativeMessaginPermissionSidebarTitle": {
-    "message": "Permission request error"
+    "message": "权限请求错误"
   },
   "nativeMessaginPermissionSidebarDesc": {
-    "message": "This action cannot be done in the sidebar, please retry the action in the popup or popout."
+    "message": "此操作不能在侧边栏中完成，请在弹出窗口或弹出对话框中重试。"
   },
   "personalOwnershipSubmitError": {
     "message": "由于某个企业策略，您被限制为保存项目到您的个人密码库。将所有权选项更改为组织，并从可用的集合中选择。"
@@ -1603,15 +1653,15 @@
     "description": "'Send' is a noun and the name of a feature called 'Bitwarden Send'. It should not be translated."
   },
   "sendDisableDesc": {
-    "message": "禁用此 Send 则没有人能访问它。",
+    "message": "禁用此 Send 以阻止任何人访问它。",
     "description": "'Send' is a noun and the name of a feature called 'Bitwarden Send'. It should not be translated."
   },
   "sendShareDesc": {
-    "message": "保存时将此 Send 的链接复制到剪贴板。",
+    "message": "保存时复制此 Send 的链接到剪贴板。",
     "description": "'Send' is a noun and the name of a feature called 'Bitwarden Send'. It should not be translated."
   },
   "sendTextDesc": {
-    "message": "您要发送的文本。"
+    "message": "您想要发送的文本。"
   },
   "sendHideText": {
     "message": "默认隐藏此 Send 的文本。",
@@ -1643,11 +1693,14 @@
     "message": "Send 已编辑",
     "description": "'Send' is a noun and the name of a feature called 'Bitwarden Send'. It should not be translated."
   },
+  "sendLinuxChromiumFileWarning": {
+    "message": "要选择文件，请在侧边栏中打开扩展（如果可以），或者点击此横幅来弹出一个新窗口。"
+  },
   "sendFirefoxFileWarning": {
-    "message": "要在 Firefox 中选择一个文件，请在侧栏中打开本扩展，或者点击此横幅来弹出一个新窗口。"
+    "message": "要在 Firefox 中选择文件，请在侧边栏中打开本扩展，或者点击此横幅来弹出一个新窗口。"
   },
   "sendSafariFileWarning": {
-    "message": "要在 Safari 中选择一个文件，请点击此横幅来弹出一个新窗口。"
+    "message": "要在 Safari 中选择文件，请点击此横幅来弹出一个新窗口。"
   },
   "sendFileCalloutHeader": {
     "message": "在开始之前"
@@ -1678,5 +1731,26 @@
   },
   "dateParsingError": {
     "message": "保存您的删除和到期日期时出错。"
+  },
+  "hideEmail": {
+    "message": "对收件人隐藏我的电子邮件地址。"
+  },
+  "sendOptionsPolicyInEffect": {
+    "message": "一个或多个组织策略正在影响您的 Send 选项。"
+  },
+  "passwordPrompt": {
+    "message": "重新询问主密码"
+  },
+  "passwordConfirmation": {
+    "message": "确认主密码"
+  },
+  "passwordConfirmationDesc": {
+    "message": "此操作受到保护。若要继续，请重新输入您的主密码以验证您的身份。"
+  },
+  "emailVerificationRequired": {
+    "message": "需要验证电子邮件地址"
+  },
+  "emailVerificationRequiredDesc": {
+    "message": "您必须验证电子邮件才能使用此功能。您可以在网页密码库中验证您的电子邮件。"
   }
 }

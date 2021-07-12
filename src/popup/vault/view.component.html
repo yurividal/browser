@@ -99,11 +99,17 @@
                 <div class="box-content-row box-content-row-flex" *ngIf="cipher.card.number">
                     <div class="row-main">
                         <span class="row-label">{{'number' | i18n}}</span>
-                        {{cipher.card.number}}
+                        <span [hidden]="showCardNumber" class="monospaced">{{cipher.card.maskedNumber}}</span>
+                        <span [hidden]="!showCardNumber" class="monospaced">{{cipher.card.number}}</span>
                     </div>
                     <div class="action-buttons">
+                        <a class="row-btn" href="#" appStopClick appA11yTitle="{{'toggleVisibility' | i18n}}"
+                            (click)="toggleCardNumber()">
+                            <i class="fa fa-lg" aria-hidden="true"
+                                [ngClass]="{'fa-eye': !showCardNumber, 'fa-eye-slash': showCardNumber}"></i>
+                        </a>
                         <a class="row-btn" href="#" appStopClick appA11yTitle="{{'copyNumber' | i18n}}"
-                            (click)="copy(cipher.card.number, 'number', 'Number')">
+                            (click)="copy(cipher.card.number, 'number', 'Card Number')">
                             <i class="fa fa-lg fa-clone" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -298,9 +304,9 @@
             <a class="box-content-row" href="#" appStopClick appBlurClick (click)="share()" *ngIf="!cipher.organizationId">
                 <div class="row-main text-primary">
                     <div class="icon text-primary" aria-hidden="true">
-                        <i class="fa fa-share-alt fa-lg fa-fw"></i>
+                        <i class="fa fa-arrow-circle-o-right fa-lg fa-fw"></i>
                     </div>
-                    <span>{{'shareItem' | i18n}}</span>
+                    <span>{{'moveToOrganization' | i18n}}</span>
                 </div>
             </a>
             <a class="box-content-row" href="#" appStopClick appBlurClick (click)="restore()" *ngIf="cipher.isDeleted">

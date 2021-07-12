@@ -22,17 +22,18 @@ import {
     RouterOutlet,
 } from '@angular/router';
 
-import { BroadcasterService } from 'jslib/angular/services/broadcaster.service';
+import { BroadcasterService } from 'jslib-angular/services/broadcaster.service';
 
-import { AuthService } from 'jslib/abstractions/auth.service';
-import { I18nService } from 'jslib/abstractions/i18n.service';
-import { MessagingService } from 'jslib/abstractions/messaging.service';
-import { PlatformUtilsService } from 'jslib/abstractions/platformUtils.service';
-import { StateService } from 'jslib/abstractions/state.service';
-import { StorageService } from 'jslib/abstractions/storage.service';
+import { AuthService } from 'jslib-common/abstractions/auth.service';
+import { I18nService } from 'jslib-common/abstractions/i18n.service';
+import { MessagingService } from 'jslib-common/abstractions/messaging.service';
+import { PlatformUtilsService } from 'jslib-common/abstractions/platformUtils.service';
+import { StateService } from 'jslib-common/abstractions/state.service';
+import { StorageService } from 'jslib-common/abstractions/storage.service';
 
-import { ConstantsService } from 'jslib/services/constants.service';
+import { ConstantsService } from 'jslib-common/services/constants.service';
 
+import BrowserPlatformUtilsService from 'src/services/browserPlatformUtils.service';
 import { routerTransition } from './app-routing.animations';
 
 @Component({
@@ -105,6 +106,8 @@ export class AppComponent implements OnInit {
                 });
             } else if (msg.command === 'showDialog') {
                 await this.showDialog(msg);
+            } else if (msg.command === 'showPasswordDialog') {
+                await this.showPasswordDialog(msg);
             } else if (msg.command === 'showToast') {
                 this.ngZone.run(() => {
                     this.showToast(msg);
@@ -235,7 +238,7 @@ export class AppComponent implements OnInit {
             iconHtml: iconClasses != null ? `<i class="swal-custom-icon fa ${iconClasses}"></i>` : undefined,
             text: msg.text,
             html: msg.html,
-            title: msg.title,
+            titleText: msg.title,
             showCancelButton: (cancelText != null),
             cancelButtonText: cancelText,
             showConfirmButton: true,
@@ -247,5 +250,31 @@ export class AppComponent implements OnInit {
             dialogId: msg.dialogId,
             confirmed: confirmed.value,
         });
+    }
+
+    private async showPasswordDialog(msg: any) {
+        const platformUtils = this.platformUtilsService as BrowserPlatformUtilsService;
+        const result = await Swal.fire({
+            heightAuto: false,
+            titleText: msg.title,
+            input: 'password',
+            text: msg.body,
+            confirmButtonText: this.i18nService.t('ok'),
+            showCancelButton: true,
+            cancelButtonText: this.i18nService.t('cancel'),
+            inputAttributes: {
+                autocapitalize: 'off',
+                autocorrect: 'off',
+            },
+            inputValidator: async (value: string): Promise<any> => {
+                if (await platformUtils.resolvePasswordDialogPromise(msg.dialogId, false, value)) {
+                    return false;
+                }
+
+                return this.i18nService.t('invalidMasterPassword');
+            },
+        });
+
+        platformUtils.resolvePasswordDialogPromise(msg.dialogId, true, null);
     }
 }

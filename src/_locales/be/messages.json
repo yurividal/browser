@@ -4,7 +4,7 @@
   },
   "extName": {
     "message": "Bitwarden – бясплатны менеджар пароляў",
-    "description": "Extension name"
+    "description": "Extension name, MUST be less than 40 characters (Safari restriction)"
   },
   "extDesc": {
     "message": "Бяспечны і бясплатны менеджар пароляў для ўсіх вашых прылад.",
@@ -149,6 +149,9 @@
   },
   "save": {
     "message": "Захаваць"
+  },
+  "move": {
+    "message": "Move"
   },
   "addFolder": {
     "message": "Дадаць папку"
@@ -596,6 +599,10 @@
     "message": "Светлая",
     "description": "Light color"
   },
+  "solarizedDark": {
+    "message": "Solarized Dark",
+    "description": "'Solarized' is a noun and the name of a color scheme. It should not be translated."
+  },
   "exportVault": {
     "message": "Экспарт сховішча"
   },
@@ -624,23 +631,33 @@
   "shared": {
     "message": "Абагуленыя"
   },
-  "shareVault": {
-    "message": "Абагуліць ваша сховішча"
+  "learnOrg": {
+    "message": "Learn about Organizations"
   },
-  "shareVaultConfirmation": {
-    "message": "Bitwarden дазваляе абагуліць сваё сховішча з іншымі карыстальнікамі, выкарыстоўваючы ўліковы запіс арганізацыі. Хочаце наведаць сайт bitwarden.com, каб даведацца больш?"
+  "learnOrgConfirmation": {
+    "message": "Bitwarden allows you to share your vault items with others by using an organization. Would you like to visit the bitwarden.com website to learn more?"
   },
-  "shareItem": {
-    "message": "Абагуліць элемент"
+  "moveToOrganization": {
+    "message": "Move to Organization"
   },
   "share": {
     "message": "Абагуліць"
   },
-  "sharedItem": {
-    "message": "Абагулены элемент"
+  "movedItemToOrg": {
+    "message": "$ITEMNAME$ moved to $ORGNAME$",
+    "placeholders": {
+      "itemname": {
+        "content": "$1",
+        "example": "Secret Item"
+      },
+      "orgname": {
+        "content": "$2",
+        "example": "Company Name"
+      }
+    }
   },
-  "shareDesc": {
-    "message": "Выберыце арганізацыю, якой вы хочаце даць доступ да гэтага элемента. Пасля выканання гэтай аперацыі, правы на элемент будуць перададзены арганізацыі і вы не будзеце з'яўляцца непасрэдным уладальнікам гэтага элемента."
+  "moveToOrgDesc": {
+    "message": "Choose an organization that you wish to move this item to. Moving to an organization transfers ownership of the item to that organization. You will no longer be the direct owner of this item once it has been moved."
   },
   "learnMore": {
     "message": "Даведацца больш"
@@ -682,7 +699,7 @@
     "message": "Выберыце файл."
   },
   "maxFileSize": {
-    "message": "Максімальны памер файла 100 МБ."
+    "message": "Максімальны памер файла 500 МБ."
   },
   "featureUnavailable": {
     "message": "Функцыя недаступна"
@@ -798,6 +815,15 @@
   "insertU2f": {
     "message": "Устаўце ваш ключ бяспекі ў порт USB вашага камп'ютара. Калі на ім ёсць кнопка, націсніце на яе."
   },
+  "webAuthnNewTab": {
+    "message": "To start the WebAuthn 2FA verification. Click the button below to open a new tab and follow the instructions provided in the new tab."
+  },
+  "webAuthnNewTabOpen": {
+    "message": "Open new tab"
+  },
+  "webAuthnAuthenticate": {
+    "message": "Authenticate WebAuthn"
+  },
   "loginUnavailable": {
     "message": "Уваход недаступны"
   },
@@ -837,11 +863,11 @@
     "message": "Пацвярдзіце з дапамогай Duo Security для вашай арганізацыі, выкарыстоўваючы праграму Duo Mobile, SMS, тэлефонны выклік або ключ бяспекі.",
     "description": "'Duo Security' and 'Duo Mobile' are product names and should not be translated."
   },
-  "u2fDesc": {
-    "message": "Выкарыстоўвайце любы ключ бяспекі FIDO U2F для доступу да вашага ўліковага запісу."
+  "webAuthnTitle": {
+    "message": "FIDO2 WebAuthn"
   },
-  "u2fTitle": {
-    "message": "Ключ бяспекі FIDO U2F"
+  "webAuthnDesc": {
+    "message": "Use any WebAuthn enabled security key to access your account."
   },
   "emailTitle": {
     "message": "Электронная пошта"
@@ -890,6 +916,24 @@
   },
   "experimentalFeature": {
     "message": "Гэта эксперыментальная функцыя. Выкарыстоўвайце на свой страх і рызыку."
+  },
+  "defaultAutoFillOnPageLoad": {
+    "message": "Default autofill setting for login items"
+  },
+  "defaultAutoFillOnPageLoadDesc": {
+    "message": "After enabling Auto-fill on Page Load, you can enable or disable the feature for individual login items. This is the default setting for login items that are not separately configured."
+  },
+  "itemAutoFillOnPageLoad": {
+    "message": "Auto-fill on Page Load (if enabled in Options)"
+  },
+  "autoFillOnPageLoadUseDefault": {
+    "message": "Use default setting"
+  },
+  "autoFillOnPageLoadYes": {
+    "message": "Auto-fill on page load"
+  },
+  "autoFillOnPageLoadNo": {
+    "message": "Do not auto-fill on page load"
   },
   "commandOpenPopup": {
     "message": "Адкрыць сховішча ва ўсплывальным акне"
@@ -944,6 +988,12 @@
   },
   "disableFaviconDesc": {
     "message": "Значкі вэб-сайтаў паказваюцца з кожным элементам у вашым сховішчы."
+  },
+  "disableBadgeCounter": {
+    "message": "Disable Badge Counter"
+  },
+  "disableBadgeCounterDesc": {
+    "message": "Badge counter indicates how many logins you have for the current page in your vault."
   },
   "cardholderName": {
     "message": "Імя ўладальніка карткі"
@@ -1643,6 +1693,9 @@
     "message": "Edited Send",
     "description": "'Send' is a noun and the name of a feature called 'Bitwarden Send'. It should not be translated."
   },
+  "sendLinuxChromiumFileWarning": {
+    "message": "In order to choose a file, open the extension in the sidebar (if possible) or pop out to a new window by clicking this banner."
+  },
   "sendFirefoxFileWarning": {
     "message": "In order to choose a file using Firefox, open the extension in the sidebar or pop out to a new window by clicking this banner."
   },
@@ -1678,5 +1731,26 @@
   },
   "dateParsingError": {
     "message": "There was an error saving your deletion and expiration dates."
+  },
+  "hideEmail": {
+    "message": "Hide my email address from recipients."
+  },
+  "sendOptionsPolicyInEffect": {
+    "message": "One or more organization policies are affecting your Send options."
+  },
+  "passwordPrompt": {
+    "message": "Master password re-prompt"
+  },
+  "passwordConfirmation": {
+    "message": "Master password confirmation"
+  },
+  "passwordConfirmationDesc": {
+    "message": "This action is protected. To continue, please re-enter your master password to verify your identity."
+  },
+  "emailVerificationRequired": {
+    "message": "Email Verification Required"
+  },
+  "emailVerificationRequiredDesc": {
+    "message": "You must verify your email to use this feature. You can verify your email in the web vault."
   }
 }

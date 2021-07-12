@@ -10,18 +10,18 @@ import { Router } from '@angular/router';
 
 import { BrowserApi } from '../../browser/browserApi';
 
-import { DeviceType } from 'jslib/enums/deviceType';
+import { DeviceType } from 'jslib-common/enums/deviceType';
 
-import { ConstantsService } from 'jslib/services/constants.service';
+import { ConstantsService } from 'jslib-common/services/constants.service';
 
-import { CryptoService } from 'jslib/abstractions/crypto.service';
-import { EnvironmentService } from 'jslib/abstractions/environment.service';
-import { I18nService } from 'jslib/abstractions/i18n.service';
-import { MessagingService } from 'jslib/abstractions/messaging.service';
-import { PlatformUtilsService } from 'jslib/abstractions/platformUtils.service';
-import { StorageService } from 'jslib/abstractions/storage.service';
-import { UserService } from 'jslib/abstractions/user.service';
-import { VaultTimeoutService } from 'jslib/abstractions/vaultTimeout.service';
+import { CryptoService } from 'jslib-common/abstractions/crypto.service';
+import { EnvironmentService } from 'jslib-common/abstractions/environment.service';
+import { I18nService } from 'jslib-common/abstractions/i18n.service';
+import { MessagingService } from 'jslib-common/abstractions/messaging.service';
+import { PlatformUtilsService } from 'jslib-common/abstractions/platformUtils.service';
+import { StorageService } from 'jslib-common/abstractions/storage.service';
+import { UserService } from 'jslib-common/abstractions/user.service';
+import { VaultTimeoutService } from 'jslib-common/abstractions/vaultTimeout.service';
 import { PopupUtilsService } from '../services/popup-utils.service';
 
 const RateUrls = {
@@ -239,7 +239,7 @@ export class SettingsComponent implements OnInit {
             const submitted = Swal.fire({
                 heightAuto: false,
                 buttonsStyling: false,
-                title: this.i18nService.t('awaitDesktop'),
+                titleText: this.i18nService.t('awaitDesktop'),
                 text: this.i18nService.t('awaitDesktopDesc'),
                 icon: 'info',
                 iconHtml: '<i class="swal-custom-icon fa fa-info-circle text-info"></i>',
@@ -310,7 +310,7 @@ export class SettingsComponent implements OnInit {
 
     async share() {
         const confirmed = await this.platformUtilsService.showDialog(
-            this.i18nService.t('shareVaultConfirmation'), this.i18nService.t('shareVault'),
+            this.i18nService.t('learnOrgConfirmation'), this.i18nService.t('learnOrg'),
             this.i18nService.t('yes'), this.i18nService.t('cancel'));
         if (confirmed) {
             BrowserApi.createNewTab('https://help.bitwarden.com/article/what-is-an-organization/');

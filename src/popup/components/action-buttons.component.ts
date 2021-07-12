@@ -7,18 +7,18 @@ import {
 
 import { ToasterService } from 'angular2-toaster';
 
-import { CipherType } from 'jslib/enums/cipherType';
-import { EventType } from 'jslib/enums/eventType';
+import { CipherRepromptType } from 'jslib-common/enums/cipherRepromptType';
+import { CipherType } from 'jslib-common/enums/cipherType';
+import { EventType } from 'jslib-common/enums/eventType';
 
-import { CipherView } from 'jslib/models/view/cipherView';
+import { CipherView } from 'jslib-common/models/view/cipherView';
 
-import { EventService } from 'jslib/abstractions/event.service';
-import { I18nService } from 'jslib/abstractions/i18n.service';
-import { PlatformUtilsService } from 'jslib/abstractions/platformUtils.service';
-import { TotpService } from 'jslib/abstractions/totp.service';
-import { UserService } from 'jslib/abstractions/user.service';
-
-import { PopupUtilsService } from '../services/popup-utils.service';
+import { EventService } from 'jslib-common/abstractions/event.service';
+import { I18nService } from 'jslib-common/abstractions/i18n.service';
+import { PasswordRepromptService } from 'jslib-common/abstractions/passwordReprompt.service';
+import { PlatformUtilsService } from 'jslib-common/abstractions/platformUtils.service';
+import { TotpService } from 'jslib-common/abstractions/totp.service';
+import { UserService } from 'jslib-common/abstractions/user.service';
 
 @Component({
     selector: 'app-action-buttons',
@@ -35,7 +35,8 @@ export class ActionButtonsComponent {
 
     constructor(private toasterService: ToasterService, private i18nService: I18nService,
         private platformUtilsService: PlatformUtilsService, private eventService: EventService,
-        private totpService: TotpService, private userService: UserService) { }
+        private totpService: TotpService, private userService: UserService,
+        private passwordRepromptService: PasswordRepromptService) { }
 
     async ngOnInit() {
         this.userHasPremiumAccess = await this.userService.canAccessPremium();
@@ -46,6 +47,11 @@ export class ActionButtonsComponent {
     }
 
     async copy(cipher: CipherView, value: string, typeI18nKey: string, aType: string) {
+        if (this.cipher.reprompt !== CipherRepromptType.None && this.passwordRepromptService.protectedFields().includes(aType) &&
+            !await this.passwordRepromptService.showPasswordPrompt()) {
+            return;
+        }
+
         if (value == null || aType === 'TOTP' && !this.displayTotpCopyButton(cipher)) {
             return;
         } else if (value === cipher.login.totp) {

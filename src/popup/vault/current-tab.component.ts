@@ -12,26 +12,28 @@ import { ToasterService } from 'angular2-toaster';
 
 import { BrowserApi } from '../../browser/browserApi';
 
-import { BroadcasterService } from 'jslib/angular/services/broadcaster.service';
+import { BroadcasterService } from 'jslib-angular/services/broadcaster.service';
 
-import { CipherType } from 'jslib/enums/cipherType';
+import { CipherRepromptType } from 'jslib-common/enums/cipherRepromptType';
+import { CipherType } from 'jslib-common/enums/cipherType';
 
-import { CipherView } from 'jslib/models/view/cipherView';
+import { CipherView } from 'jslib-common/models/view/cipherView';
 
-import { CipherService } from 'jslib/abstractions/cipher.service';
-import { I18nService } from 'jslib/abstractions/i18n.service';
-import { PlatformUtilsService } from 'jslib/abstractions/platformUtils.service';
-import { SearchService } from 'jslib/abstractions/search.service';
-import { StorageService } from 'jslib/abstractions/storage.service';
-import { SyncService } from 'jslib/abstractions/sync.service';
+import { CipherService } from 'jslib-common/abstractions/cipher.service';
+import { I18nService } from 'jslib-common/abstractions/i18n.service';
+import { PasswordRepromptService } from 'jslib-common/abstractions/passwordReprompt.service';
+import { PlatformUtilsService } from 'jslib-common/abstractions/platformUtils.service';
+import { SearchService } from 'jslib-common/abstractions/search.service';
+import { StorageService } from 'jslib-common/abstractions/storage.service';
+import { SyncService } from 'jslib-common/abstractions/sync.service';
 
-import { ConstantsService } from 'jslib/services/constants.service';
+import { ConstantsService } from 'jslib-common/services/constants.service';
 
 import { AutofillService } from '../../services/abstractions/autofill.service';
 
 import { PopupUtilsService } from '../services/popup-utils.service';
 
-import { Utils } from 'jslib/misc/utils';
+import { Utils } from 'jslib-common/misc/utils';
 
 const BroadcasterSubscriptionId = 'CurrentTabComponent';
 
@@ -61,7 +63,8 @@ export class CurrentTabComponent implements OnInit, OnDestroy {
         private toasterService: ToasterService, private i18nService: I18nService, private router: Router,
         private ngZone: NgZone, private broadcasterService: BroadcasterService,
         private changeDetectorRef: ChangeDetectorRef, private syncService: SyncService,
-        private searchService: SearchService, private storageService: StorageService) {
+        private searchService: SearchService, private storageService: StorageService,
+        private passwordRepromptService: PasswordRepromptService) {
     }
 
     async ngOnInit() {
@@ -128,6 +131,10 @@ export class CurrentTabComponent implements OnInit, OnDestroy {
     }
 
     async fillCipher(cipher: CipherView) {
+        if (cipher.reprompt !== CipherRepromptType.None && !await this.passwordRepromptService.showPasswordPrompt()) {
+            return;
+        }
+
         this.totpCode = null;
         if (this.totpTimeout != null) {
             window.clearTimeout(this.totpTimeout);
@@ -169,6 +176,13 @@ export class CurrentTabComponent implements OnInit, OnDestroy {
         this.searchTimeout = window.setTimeout(async () => {
             this.router.navigate(['/tabs/vault'], { queryParams: { searchText: this.searchText } });
         }, 200);
+    }
+
+    closeOnEsc(e: KeyboardEvent) {
+        // If input not empty, use browser default behavior of clearing input instead
+        if (e.key === 'Escape' && (this.searchText == null || this.searchText === '')) {
+            BrowserApi.closePopup(window);
+        }
     }
 
     private async load() {
@@ -225,12 +239,5 @@ export class CurrentTabComponent implements OnInit, OnDestroy {
 
         this.loginCiphers = this.loginCiphers.sort((a, b) => this.cipherService.sortCiphersByLastUsedThenName(a, b));
         this.loaded = true;
-    }
-
-    closeOnEsc(e: KeyboardEvent) {
-        // If input not empty, use browser default behavior of clearing input instead
-        if (e.key === 'Escape' && (this.searchText == null || this.searchText === '')) {
-            BrowserApi.closePopup(window);
-        }
     }
 }

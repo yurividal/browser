@@ -4,6 +4,7 @@ import LocalAuthentication
 
 let SFExtensionMessageKey = "message"
 let ServiceName = "Bitwarden"
+let ServiceNameBiometric = ServiceName + "_biometric"
 
 class SafariWebExtensionHandler: NSObject, NSExtensionRequestHandling {
 
@@ -85,7 +86,9 @@ class SafariWebExtensionHandler: NSObject, NSExtensionRequestHandling {
             var error: NSError?
             let laContext = LAContext()
             
-            guard laContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) else {
+            laContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
+            
+            if let e = error, e.code != kLAErrorBiometryLockout {
                 response.userInfo = [
                     SFExtensionMessageKey: [
                         "message": [
@@ -95,17 +98,32 @@ class SafariWebExtensionHandler: NSObject, NSExtensionRequestHandling {
                         ],
                     ],
                 ]
-                break;
+                break
             }
 
-            laContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "Bitwarden Safari Extension") { (success, error) in
+            guard let accessControl = SecAccessControlCreateWithFlags(nil, kSecAttrAccessibleWhenUnlockedThisDeviceOnly, [.privateKeyUsage, .userPresence], nil) else {
+                response.userInfo = [
+                    SFExtensionMessageKey: [
+                        "message": [
+                            "command": "biometricUnlock",
+                            "response": "not supported",
+                            "timestamp": Int64(NSDate().timeIntervalSince1970 * 1000),
+                        ],
+                    ],
+                ]
+                break
+            }
+            laContext.evaluateAccessControl(accessControl, operation: .useKeySign, localizedReason: "Bitwarden Safari Extension") { (success, error) in
                 if success {
                     let passwordName = "key"
                     var passwordLength: UInt32 = 0
                     var passwordPtr: UnsafeMutableRawPointer? = nil
                     
-                    let status = SecKeychainFindGenericPassword(nil, UInt32(ServiceName.utf8.count), ServiceName, UInt32(passwordName.utf8.count), passwordName, &passwordLength, &passwordPtr, nil)
-                    
+                    var status = SecKeychainFindGenericPassword(nil, UInt32(ServiceNameBiometric.utf8.count), ServiceNameBiometric, UInt32(passwordName.utf8.count), passwordName, &passwordLength, &passwordPtr, nil)
+                    if status != errSecSuccess {
+                        status = SecKeychainFindGenericPassword(nil, UInt32(ServiceName.utf8.count), ServiceName, UInt32(passwordName.utf8.count), passwordName, &passwordLength, &passwordPtr, nil)
+                    }
+    
                     if status == errSecSuccess {
                         let result = NSString(bytes: passwordPtr!, length: Int(passwordLength), encoding: String.Encoding.utf8.rawValue) as String?
                                     SecKeychainItemFreeContent(nil, passwordPtr)
@@ -134,7 +152,7 @@ class SafariWebExtensionHandler: NSObject, NSExtensionRequestHandling {
                 context.completeRequest(returningItems: [response], completionHandler: nil)
             }
             
-            return;
+            return
         default:
             return
         }

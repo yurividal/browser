@@ -13,25 +13,25 @@ import {
 
 import { BrowserApi } from '../../browser/browserApi';
 
-import { CipherType } from 'jslib/enums/cipherType';
+import { CipherType } from 'jslib-common/enums/cipherType';
 
-import { CipherView } from 'jslib/models/view/cipherView';
-import { CollectionView } from 'jslib/models/view/collectionView';
-import { FolderView } from 'jslib/models/view/folderView';
+import { CipherView } from 'jslib-common/models/view/cipherView';
+import { CollectionView } from 'jslib-common/models/view/collectionView';
+import { FolderView } from 'jslib-common/models/view/folderView';
 
-import { CipherService } from 'jslib/abstractions/cipher.service';
-import { CollectionService } from 'jslib/abstractions/collection.service';
-import { FolderService } from 'jslib/abstractions/folder.service';
-import { PlatformUtilsService } from 'jslib/abstractions/platformUtils.service';
-import { SearchService } from 'jslib/abstractions/search.service';
-import { StateService } from 'jslib/abstractions/state.service';
-import { StorageService } from 'jslib/abstractions/storage.service';
-import { SyncService } from 'jslib/abstractions/sync.service';
-import { UserService } from 'jslib/abstractions/user.service';
+import { CipherService } from 'jslib-common/abstractions/cipher.service';
+import { CollectionService } from 'jslib-common/abstractions/collection.service';
+import { FolderService } from 'jslib-common/abstractions/folder.service';
+import { PlatformUtilsService } from 'jslib-common/abstractions/platformUtils.service';
+import { SearchService } from 'jslib-common/abstractions/search.service';
+import { StateService } from 'jslib-common/abstractions/state.service';
+import { StorageService } from 'jslib-common/abstractions/storage.service';
+import { SyncService } from 'jslib-common/abstractions/sync.service';
+import { UserService } from 'jslib-common/abstractions/user.service';
 
-import { BroadcasterService } from 'jslib/angular/services/broadcaster.service';
+import { BroadcasterService } from 'jslib-angular/services/broadcaster.service';
 
-import { GroupingsComponent as BaseGroupingsComponent } from 'jslib/angular/components/groupings.component';
+import { GroupingsComponent as BaseGroupingsComponent } from 'jslib-angular/components/groupings.component';
 
 import { PopupUtilsService } from '../services/popup-utils.service';
 
@@ -43,6 +43,15 @@ const ScopeStateId = ComponentId + 'Scope';
     templateUrl: 'groupings.component.html',
 })
 export class GroupingsComponent extends BaseGroupingsComponent implements OnInit, OnDestroy {
+
+    get showNoFolderCiphers(): boolean {
+        return this.noFolderCiphers != null && this.noFolderCiphers.length < this.noFolderListSize &&
+            this.collections.length === 0;
+    }
+
+    get folderCount(): number {
+        return this.nestedFolders.length - (this.showNoFolderCiphers ? 0 : 1);
+    }
     ciphers: CipherView[];
     favoriteCiphers: CipherView[];
     noFolderCiphers: CipherView[];
@@ -76,15 +85,6 @@ export class GroupingsComponent extends BaseGroupingsComponent implements OnInit
         private searchService: SearchService, private location: Location) {
         super(collectionService, folderService, storageService, userService);
         this.noFolderListSize = 100;
-    }
-
-    get showNoFolderCiphers(): boolean {
-        return this.noFolderCiphers != null && this.noFolderCiphers.length < this.noFolderListSize &&
-            this.collections.length === 0;
-    }
-
-    get folderCount(): number {
-        return this.nestedFolders.length - (this.showNoFolderCiphers ? 0 : 1);
     }
 
     async ngOnInit() {
@@ -296,6 +296,13 @@ export class GroupingsComponent extends BaseGroupingsComponent implements OnInit
         return this.hasSearched || (!this.searchPending && this.searchService.isSearchable(this.searchText));
     }
 
+    closeOnEsc(e: KeyboardEvent) {
+        // If input not empty, use browser default behavior of clearing input instead
+		if (e.key === 'Escape' && (this.searchText == null || this.searchText === '')) {
+            BrowserApi.closePopup(window);
+        }
+    }
+
     private async saveState() {
         this.state = {
             scrollY: this.popupUtils.getContentScrollY(window),
@@ -352,12 +359,5 @@ export class GroupingsComponent extends BaseGroupingsComponent implements OnInit
         }
 
         return true;
-    }
-
-    closeOnEsc(e: KeyboardEvent) {
-        // If input not empty, use browser default behavior of clearing input instead
-		if (e.key === 'Escape' && (this.searchText == null || this.searchText === '')) {
-            BrowserApi.closePopup(window);
-        }
     }
 }

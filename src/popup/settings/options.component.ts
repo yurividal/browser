@@ -3,16 +3,15 @@ import {
     OnInit,
 } from '@angular/core';
 
-import { UriMatchType } from 'jslib/enums/uriMatchType';
+import { UriMatchType } from 'jslib-common/enums/uriMatchType';
 
-import { I18nService } from 'jslib/abstractions/i18n.service';
-import { MessagingService } from 'jslib/abstractions/messaging.service';
-import { PlatformUtilsService } from 'jslib/abstractions/platformUtils.service';
-import { StateService } from 'jslib/abstractions/state.service';
-import { StorageService } from 'jslib/abstractions/storage.service';
-import { TotpService } from 'jslib/abstractions/totp.service';
+import { I18nService } from 'jslib-common/abstractions/i18n.service';
+import { MessagingService } from 'jslib-common/abstractions/messaging.service';
+import { StateService } from 'jslib-common/abstractions/state.service';
+import { StorageService } from 'jslib-common/abstractions/storage.service';
+import { TotpService } from 'jslib-common/abstractions/totp.service';
 
-import { ConstantsService } from 'jslib/services/constants.service';
+import { ConstantsService } from 'jslib-common/services/constants.service';
 
 @Component({
     selector: 'app-options',
@@ -22,6 +21,8 @@ export class OptionsComponent implements OnInit {
     disableFavicon = false;
     disableBadgeCounter = false;
     enableAutoFillOnPageLoad = false;
+    autoFillOnPageLoadDefault = false;
+    autoFillOnPageLoadOptions: any[];
     disableAutoTotpCopy = false;
     disableContextMenuItem = false;
     disableAddLoginNotification = false;
@@ -35,6 +36,9 @@ export class OptionsComponent implements OnInit {
     uriMatchOptions: any[];
     clearClipboard: number;
     clearClipboardOptions: any[];
+    showGeneral: boolean = true;
+    showAutofill: boolean = true;
+    showDisplay: boolean = true;
 
     constructor(private messagingService: MessagingService, private storageService: StorageService,
         private stateService: StateService, private totpService: TotpService, i18nService: I18nService) {
@@ -43,6 +47,7 @@ export class OptionsComponent implements OnInit {
             { name: i18nService.t('light'), value: 'light' },
             { name: i18nService.t('dark'), value: 'dark' },
             { name: 'Nord', value: 'nord' },
+            { name: i18nService.t('solarizedDark'), value: 'solarizedDark' },
         ];
         this.uriMatchOptions = [
             { name: i18nService.t('baseDomain'), value: UriMatchType.Domain },
@@ -61,11 +66,18 @@ export class OptionsComponent implements OnInit {
             { name: i18nService.t('twoMinutes'), value: 120 },
             { name: i18nService.t('fiveMinutes'), value: 300 },
         ];
+        this.autoFillOnPageLoadOptions = [
+            { name: i18nService.t('autoFillOnPageLoadYes'), value: true },
+            { name: i18nService.t('autoFillOnPageLoadNo'), value: false },
+        ];
     }
 
     async ngOnInit() {
         this.enableAutoFillOnPageLoad = await this.storageService.get<boolean>(
             ConstantsService.enableAutoFillOnPageLoadKey);
+
+        this.autoFillOnPageLoadDefault = await this.storageService.get<boolean>(
+            ConstantsService.autoFillOnPageLoadDefaultKey) ?? true;
 
         this.disableAddLoginNotification = await this.storageService.get<boolean>(
             ConstantsService.disableAddLoginNotificationKey);
@@ -115,6 +127,10 @@ export class OptionsComponent implements OnInit {
 
     async updateAutoFillOnPageLoad() {
         await this.storageService.save(ConstantsService.enableAutoFillOnPageLoadKey, this.enableAutoFillOnPageLoad);
+    }
+
+    async updateAutoFillOnPageLoadDefault() {
+        await this.storageService.save(ConstantsService.autoFillOnPageLoadDefaultKey, this.autoFillOnPageLoadDefault);
     }
 
     async updateDisableFavicon() {

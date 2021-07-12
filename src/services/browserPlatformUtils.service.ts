@@ -1,10 +1,10 @@
 import { BrowserApi } from '../browser/browserApi';
 import { SafariApp } from '../browser/safariApp';
 
-import { DeviceType } from 'jslib/enums/deviceType';
+import { DeviceType } from 'jslib-common/enums/deviceType';
 
-import { MessagingService } from 'jslib/abstractions/messaging.service';
-import { PlatformUtilsService } from 'jslib/abstractions/platformUtils.service';
+import { MessagingService } from 'jslib-common/abstractions/messaging.service';
+import { PlatformUtilsService } from 'jslib-common/abstractions/platformUtils.service';
 
 const DialogPromiseExpiration = 600000; // 10 minutes
 
@@ -12,6 +12,7 @@ export default class BrowserPlatformUtilsService implements PlatformUtilsService
     identityClientId: string = 'browser';
 
     private showDialogResolves = new Map<number, { resolve: (value: boolean) => void, date: Date }>();
+    private passwordDialogResolves = new Map<number, { tryResolve: (canceled: boolean, password: string) => Promise<boolean>, date: Date }>();
     private deviceCache: DeviceType = null;
     private prefersColorSchemeDark = window.matchMedia('(prefers-color-scheme: dark)');
 
@@ -153,6 +154,33 @@ export default class BrowserPlatformUtilsService implements PlatformUtilsService
         });
     }
 
+    async showPasswordDialog(title: string, body: string, passwordValidation: (value: string) => Promise<boolean>) {
+        const dialogId = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
+
+        this.messagingService.send('showPasswordDialog', {
+            title: title,
+            body: body,
+            dialogId: dialogId,
+        });
+
+        return new Promise<boolean>(resolve => {
+            this.passwordDialogResolves.set(dialogId, {
+                tryResolve: async (canceled: boolean, password: string) => {
+                    if (canceled) {
+                        resolve(false);
+                        return false;
+                    }
+
+                    if (await passwordValidation(password)) {
+                        resolve(true);
+                        return true;
+                    }
+                },
+                date: new Date(),
+            });
+        });
+    }
+
     isDev(): boolean {
         return process.env.ENV === 'development';
     }
@@ -260,16 +288,33 @@ export default class BrowserPlatformUtilsService implements PlatformUtilsService
         }
 
         // Clean up old promises
-        const deleteIds: number[] = [];
         this.showDialogResolves.forEach((val, key) => {
             const age = new Date().getTime() - val.date.getTime();
             if (age > DialogPromiseExpiration) {
-                deleteIds.push(key);
+                this.showDialogResolves.delete(key);
             }
         });
-        deleteIds.forEach(id => {
-            this.showDialogResolves.delete(id);
+    }
+
+    async resolvePasswordDialogPromise(dialogId: number, canceled: boolean, password: string): Promise<boolean> {
+        let result = false;
+        if (this.passwordDialogResolves.has(dialogId)) {
+            const resolveObj = this.passwordDialogResolves.get(dialogId);
+            if (await resolveObj.tryResolve(canceled, password)) {
+                this.passwordDialogResolves.delete(dialogId);
+                result = true;
+            }
+        }
+
+        // Clean up old promises
+        this.passwordDialogResolves.forEach((val, key) => {
+            const age = new Date().getTime() - val.date.getTime();
+            if (age > DialogPromiseExpiration) {
+                this.passwordDialogResolves.delete(key);
+            }
         });
+
+        return result;
     }
 
     async supportsBiometric() {
@@ -303,7 +348,7 @@ export default class BrowserPlatformUtilsService implements PlatformUtilsService
     }
 
     onDefaultSystemThemeChange(callback: ((theme: 'light' | 'dark') => unknown)) {
-        this.prefersColorSchemeDark.addListener(({ matches }) => {
+        this.prefersColorSchemeDark.addEventListener('change', ({ matches }) => {
             callback(matches ? 'dark' : 'light');
         });
     }

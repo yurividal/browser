@@ -4,7 +4,7 @@
   },
   "extName": {
     "message": "Bitwarden - Gratis wachtwoordbeheer",
-    "description": "Extension name"
+    "description": "Extension name, MUST be less than 40 characters (Safari restriction)"
   },
   "extDesc": {
     "message": "Een veilige en gratis oplossing voor wachtwoordbeheer voor al je apparaten.",
@@ -149,6 +149,9 @@
   },
   "save": {
     "message": "Opslaan"
+  },
+  "move": {
+    "message": "Verplaatsen"
   },
   "addFolder": {
     "message": "Map toevoegen"
@@ -596,6 +599,10 @@
     "message": "Licht",
     "description": "Light color"
   },
+  "solarizedDark": {
+    "message": "Overbelicht donker",
+    "description": "'Solarized' is a noun and the name of a color scheme. It should not be translated."
+  },
   "exportVault": {
     "message": "Kluis exporteren"
   },
@@ -624,23 +631,33 @@
   "shared": {
     "message": "Gedeeld"
   },
-  "shareVault": {
-    "message": "Kluis delen"
+  "learnOrg": {
+    "message": "Meer over organisaties"
   },
-  "shareVaultConfirmation": {
-    "message": "Met een organisatie-account kunt je jeBitwarden-kluis delen met anderen. Wil je de website bitwarden.com bezoeken voor meer informatie?"
+  "learnOrgConfirmation": {
+    "message": "Door een organisatie te gebruiken in Bitwarden kun je kluis-items delen met anderen. Wil je de website van bitwarden.com bezoeken voor meer informatie?"
   },
-  "shareItem": {
-    "message": "Item delen"
+  "moveToOrganization": {
+    "message": "Naar organisatie verplaatsen"
   },
   "share": {
     "message": "Delen"
   },
-  "sharedItem": {
-    "message": "Item gedeeld"
+  "movedItemToOrg": {
+    "message": "$ITEMNAME$ verplaatst naar $ORGNAME$",
+    "placeholders": {
+      "itemname": {
+        "content": "$1",
+        "example": "Secret Item"
+      },
+      "orgname": {
+        "content": "$2",
+        "example": "Company Name"
+      }
+    }
   },
-  "shareDesc": {
-    "message": "Kies een organisatie waarmee je dit item wilt delen. Door het delen draag je het eigendom van dit item over aan de organisatie. Je bent niet langer de directe eigenaar van het item wanneer deze is gedeeld."
+  "moveToOrgDesc": {
+    "message": "Kies een organisatie waarnaar je dit item wilt verplaatsen. Door het verplaatsen krijgt de organisatie de eigendomsrechten van het item. Je bent niet langer de directe eigenaar meer van het item als het is verplaatst."
   },
   "learnMore": {
     "message": "Meer informatie"
@@ -682,7 +699,7 @@
     "message": "Selecteer een bestand."
   },
   "maxFileSize": {
-    "message": "Maximale bestandsgrootte is 100 MB."
+    "message": "Maximale bestandsgrootte is 500 MB."
   },
   "featureUnavailable": {
     "message": "Functionaliteit niet beschikbaar"
@@ -798,6 +815,15 @@
   "insertU2f": {
     "message": "Plaats je beveilingssleutel in de USB-poort van je computer. Als het een knop heeft, druk deze dan in."
   },
+  "webAuthnNewTab": {
+    "message": "Ga door met WebAuthn 2FA-verificatie in de nieuwe tab."
+  },
+  "webAuthnNewTabOpen": {
+    "message": "Nieuwe tab openen"
+  },
+  "webAuthnAuthenticate": {
+    "message": "Authenticeer WebAuthn"
+  },
   "loginUnavailable": {
     "message": "Login niet beschikbaar"
   },
@@ -837,11 +863,11 @@
     "message": "Verificatie met Duo Security middels de Duo Mobile-app, sms, spraakoproep of een U2F-beveiligingssleutel.",
     "description": "'Duo Security' and 'Duo Mobile' are product names and should not be translated."
   },
-  "u2fDesc": {
-    "message": "Gebruik een FIDO U2F-beveiligingssleutel om toegang te krijgen tot je account."
+  "webAuthnTitle": {
+    "message": "FIDO2 WebAuthn"
   },
-  "u2fTitle": {
-    "message": "FIDO U2F-beveiligingssleutel"
+  "webAuthnDesc": {
+    "message": "Gebruik een WebAuthn-beveilingssleutel om toegang te krijgen tot je account."
   },
   "emailTitle": {
     "message": "E-mail"
@@ -890,6 +916,24 @@
   },
   "experimentalFeature": {
     "message": "Dit is momenteel een experimentele functie; gebruik hiervan is op eigen risico."
+  },
+  "defaultAutoFillOnPageLoad": {
+    "message": "Standaardinstelling voor automatisch invullen login-items"
+  },
+  "defaultAutoFillOnPageLoadDesc": {
+    "message": "Na het inschakelen van Automatisch invullen bij laden van pagina, kun je de functie voor individuele inlogitems in- of uitschakelen. Dit is de standaardinstelling voor inlogitems die niet afzonderlijk zijn geconfigureerd."
+  },
+  "itemAutoFillOnPageLoad": {
+    "message": "Automatisch invullen bij laden van pagina (als ingeschakeld in Opties)"
+  },
+  "autoFillOnPageLoadUseDefault": {
+    "message": "Standaardinstelling gebruiken"
+  },
+  "autoFillOnPageLoadYes": {
+    "message": "Automatisch invullen bij laden van pagina"
+  },
+  "autoFillOnPageLoadNo": {
+    "message": "Niet Automatisch invullen bij laden van pagina"
   },
   "commandOpenPopup": {
     "message": "Open kluis in pop-up"
@@ -944,6 +988,12 @@
   },
   "disableFaviconDesc": {
     "message": "Websitepictogrammen geven een herkenbare afbeelding naast elk item in je kluis weer."
+  },
+  "disableBadgeCounter": {
+    "message": "Badgeteller uitschakelen"
+  },
+  "disableBadgeCounterDesc": {
+    "message": "De badgeteller geeft aan hoeveel logins je in je kluis hebt voor de huidige pagina."
   },
   "cardholderName": {
     "message": "Naam kaarthouder"
@@ -1448,10 +1498,10 @@
     "message": "Zonder toestemming om te communiceren met de Bitwarden Desktop-applicatie, kunnen we biometrisch inloggen in de browserextensie niet leveren. Probeer het opnieuw."
   },
   "nativeMessaginPermissionSidebarTitle": {
-    "message": "Permission request error"
+    "message": "Fout bij toestemmingsaanvraag"
   },
   "nativeMessaginPermissionSidebarDesc": {
-    "message": "This action cannot be done in the sidebar, please retry the action in the popup or popout."
+    "message": "Deze actie kan niet worden uitgevoerd in de zijbalk, probeer de actie opnieuw in de pop-up of pop-out."
   },
   "personalOwnershipSubmitError": {
     "message": "Wegens bedrijfsbeleid mag je geen wachtwoorden opslaan in je persoonlijke kluis. Verander het eigenaarschap naar een organisatie en kies uit een van de beschikbare collecties."
@@ -1643,6 +1693,9 @@
     "message": "Send bewerkt",
     "description": "'Send' is a noun and the name of a feature called 'Bitwarden Send'. It should not be translated."
   },
+  "sendLinuxChromiumFileWarning": {
+    "message": "Om een bestand te kiezen open je de extensie in de zijbalk (indien mogelijk) of pop-out naar een nieuw venster door op deze banner te klikken."
+  },
   "sendFirefoxFileWarning": {
     "message": "Om een bestand te kiezen met Firefox, open je de extensie in de zijbalk of als pop-up in een nieuw venster door op deze banner te klikken."
   },
@@ -1678,5 +1731,26 @@
   },
   "dateParsingError": {
     "message": "Er is een fout opgetreden bij het opslaan van je verwijder- en vervaldatum."
+  },
+  "hideEmail": {
+    "message": "Verberg mijn e-mailadres voor ontvangers."
+  },
+  "sendOptionsPolicyInEffect": {
+    "message": "Een of meer organisatiebeleidseisen heeft invloed op de mogelijkheden van je Send."
+  },
+  "passwordPrompt": {
+    "message": "Hoofdwachtwoord opnieuw vragen"
+  },
+  "passwordConfirmation": {
+    "message": "Hoofdwachtwoord bevestigen"
+  },
+  "passwordConfirmationDesc": {
+    "message": "Deze actie is beveiligd. Voer je hoofdwachtwoord opnieuw in om je identiteit vast te stellen en door te gaan."
+  },
+  "emailVerificationRequired": {
+    "message": "E-mailverificatie vereist"
+  },
+  "emailVerificationRequiredDesc": {
+    "message": "Je moet je e-mailadres verifiëren om deze functie te gebruiken. Je kunt je e-mailadres verifiëren in de kluis."
   }
 }

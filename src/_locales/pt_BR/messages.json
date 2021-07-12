@@ -3,8 +3,8 @@
     "message": "Bitwarden"
   },
   "extName": {
-    "message": "Bitwarden - Gerenciador de Senhas Gratuito",
-    "description": "Extension name"
+    "message": "Bitwarden",
+    "description": "Extension name, MUST be less than 40 characters (Safari restriction)"
   },
   "extDesc": {
     "message": "Um gerenciador de senhas seguro e gratuito para todos os seus dispositivos.",
@@ -149,6 +149,9 @@
   },
   "save": {
     "message": "Salvar"
+  },
+  "move": {
+    "message": "Mover"
   },
   "addFolder": {
     "message": "Adicionar Pasta"
@@ -596,6 +599,10 @@
     "message": "Claro",
     "description": "Light color"
   },
+  "solarizedDark": {
+    "message": "Escuro Solarizado",
+    "description": "'Solarized' is a noun and the name of a color scheme. It should not be translated."
+  },
   "exportVault": {
     "message": "Exportar Cofre"
   },
@@ -624,23 +631,33 @@
   "shared": {
     "message": "Compartilhado"
   },
-  "shareVault": {
-    "message": "Compartilhar Seu Cofre"
+  "learnOrg": {
+    "message": "Aprenda mais sobre as Organizações"
   },
-  "shareVaultConfirmation": {
-    "message": "O Bitwarden permite compartilhar o seu cofre com outros ao utilizar uma conta de organização. Gostaria de visitar o site bitwarden.com para saber mais?"
+  "learnOrgConfirmation": {
+    "message": "O Bitwarden permite compartilhar os seus itens do cofre com outros ao utilizar uma organização. Gostaria de visitar o site bitwarden.com para saber mais?"
   },
-  "shareItem": {
-    "message": "Compartilhar Item"
+  "moveToOrganization": {
+    "message": "Mover para a Organização"
   },
   "share": {
     "message": "Compartilhar"
   },
-  "sharedItem": {
-    "message": "Compartilhar Item"
+  "movedItemToOrg": {
+    "message": "$ITEMNAME$ movido para $ORGNAME$",
+    "placeholders": {
+      "itemname": {
+        "content": "$1",
+        "example": "Secret Item"
+      },
+      "orgname": {
+        "content": "$2",
+        "example": "Company Name"
+      }
+    }
   },
-  "shareDesc": {
-    "message": "Escolha uma organização com a qual você deseja compartilhar este item. O compartilhamento transfere a propriedade do item para a organização. Você não será mais o proprietário direto deste item depois que ele for compartilhado."
+  "moveToOrgDesc": {
+    "message": "Escolha uma organização para a qual deseja mover este item. Mudar para uma organização transfere a propriedade do item para essa organização. Você não será mais o proprietário direto deste item depois que ele for movido."
   },
   "learnMore": {
     "message": "Saber mais"
@@ -682,7 +699,7 @@
     "message": "Selecione um arquivo."
   },
   "maxFileSize": {
-    "message": "O tamanho máximo do arquivo é de 100 MB."
+    "message": "O tamanho máximo do arquivo é de 500 MB."
   },
   "featureUnavailable": {
     "message": "Recurso Indisponível"
@@ -798,6 +815,15 @@
   "insertU2f": {
     "message": "Insira a sua chave de segurança na porta USB do seu computador. Se ele tiver um botão, toque nele."
   },
+  "webAuthnNewTab": {
+    "message": "Continue a verificação de 2FA WebAuthn na nova aba."
+  },
+  "webAuthnNewTabOpen": {
+    "message": "Abrir nova aba"
+  },
+  "webAuthnAuthenticate": {
+    "message": "Autenticar WebAuthn"
+  },
   "loginUnavailable": {
     "message": "Sessão Indisponível"
   },
@@ -837,11 +863,11 @@
     "message": "Verifique com o Duo Security utilizando o aplicativo Duo Mobile, SMS, chamada telefônica, ou chave de segurança U2F.",
     "description": "'Duo Security' and 'Duo Mobile' are product names and should not be translated."
   },
-  "u2fDesc": {
-    "message": "Utilize qualquer chave de segurança ativada por FIDO U2F para acessar à sua conta."
+  "webAuthnTitle": {
+    "message": "FIDO2 WebAuthn"
   },
-  "u2fTitle": {
-    "message": "Chave de Segurança FIDO U2F"
+  "webAuthnDesc": {
+    "message": "Utilize qualquer chave de segurança ativada por WebAuthn para acessar a sua conta."
   },
   "emailTitle": {
     "message": "E-mail"
@@ -890,6 +916,24 @@
   },
   "experimentalFeature": {
     "message": "Atualmente, este é um recurso experimental. Utilize por sua conta e risco."
+  },
+  "defaultAutoFillOnPageLoad": {
+    "message": "Configuração de autopreenchimento padrão para itens de credenciais"
+  },
+  "defaultAutoFillOnPageLoadDesc": {
+    "message": "Depois de habilitar o Auto-preenchimento ao carregar a página, você pode habilitar ou desabilitar o recurso para itens de credenciais individuais. Esta é a configuração padrão para itens de credenciais que não são configurados separadamente."
+  },
+  "itemAutoFillOnPageLoad": {
+    "message": "Auto-preencher no Carregamento da Página (se ativado nas Opções)"
+  },
+  "autoFillOnPageLoadUseDefault": {
+    "message": "Usar configuração padrão"
+  },
+  "autoFillOnPageLoadYes": {
+    "message": "Auto-preencher ao carregar a página"
+  },
+  "autoFillOnPageLoadNo": {
+    "message": "Não auto-preencher ao carregar a página"
   },
   "commandOpenPopup": {
     "message": "Abrir pop-up do cofre"
@@ -944,6 +988,12 @@
   },
   "disableFaviconDesc": {
     "message": "O ícone do site fornece um ícone reconhecível ao lado de cada credencial no seu cofre."
+  },
+  "disableBadgeCounter": {
+    "message": "Desativar Contador de Emblemas"
+  },
+  "disableBadgeCounterDesc": {
+    "message": "O contador de emblemas indica a quantidade de credenciais que você tem para a página atual no seu cofre."
   },
   "cardholderName": {
     "message": "Titular do Cartão"
@@ -1448,10 +1498,10 @@
     "message": "Sem permissão para nos comunicar com o aplicativo Bitwarden Desktop, não podemos fornecer dados biométricos na extensão do navegador. Por favor, tente novamente."
   },
   "nativeMessaginPermissionSidebarTitle": {
-    "message": "Permission request error"
+    "message": "Erro ao solicitar permissão"
   },
   "nativeMessaginPermissionSidebarDesc": {
-    "message": "This action cannot be done in the sidebar, please retry the action in the popup or popout."
+    "message": "Esta ação não pode ser feita na barra lateral. Por favor, tente novamente no popup ou popout."
   },
   "personalOwnershipSubmitError": {
     "message": "Devido a uma Política Empresarial, você está restrito de salvar itens para seu cofre pessoal. Altere a opção de Propriedade para uma organização e escolha entre as Coleções disponíveis."
@@ -1643,6 +1693,9 @@
     "message": "Send Editado",
     "description": "'Send' is a noun and the name of a feature called 'Bitwarden Send'. It should not be translated."
   },
+  "sendLinuxChromiumFileWarning": {
+    "message": "Para escolher um arquivo, abra a extensão na barra lateral (se possível), ou abra uma nova janela clicando neste banner."
+  },
   "sendFirefoxFileWarning": {
     "message": "Para escolher um arquivo usando o Firefox, abra a extensão na barra lateral ou abra uma nova janela clicando neste banner."
   },
@@ -1678,5 +1731,26 @@
   },
   "dateParsingError": {
     "message": "Ocorreu um erro ao salvar as suas datas de exclusão e validade."
+  },
+  "hideEmail": {
+    "message": "Ocultar meu endereço de e-mail dos destinatários."
+  },
+  "sendOptionsPolicyInEffect": {
+    "message": "Uma ou mais políticas da organização estão afetando as suas opções de Send."
+  },
+  "passwordPrompt": {
+    "message": "Solicitação nova de senha mestra"
+  },
+  "passwordConfirmation": {
+    "message": "Confirmação de senha mestra"
+  },
+  "passwordConfirmationDesc": {
+    "message": "Esta ação está protegida. Para continuar, por favor, reinsira a sua senha mestra para verificar sua identidade."
+  },
+  "emailVerificationRequired": {
+    "message": "Verificação de E-mail Necessária"
+  },
+  "emailVerificationRequiredDesc": {
+    "message": "Você precisa verificar o seu e-mail para usar este recurso. Você pode verificar seu e-mail no cofre web."
   }
 }
