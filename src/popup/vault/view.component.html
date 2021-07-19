@@ -241,7 +241,7 @@
                         <span class="sr-only">{{field.value}}</span>
                     </div>
                     <div *ngIf="field.type === fieldType.Linked">
-                        <i class="fa fa-link"></i>{{field.value || '&nbsp;'}}
+                        <i class="fa fa-link"></i>{{cipher.getLinkedFieldi18nKey(field.value) | i18n}}
                     </div>
                 </div>
                 <div class="action-buttons">

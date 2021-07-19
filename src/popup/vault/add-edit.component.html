@@ -24,7 +24,7 @@
             <div class="box-content">
                 <div class="box-content-row" *ngIf="!editMode" appBoxRow>
                     <label for="type">{{'type' | i18n}}</label>
-                    <select id="type" name="Type" [(ngModel)]="cipher.type">
+                    <select id="type" name="Type" [(ngModel)]="cipher.type" (change)="cipherTypeChanged()">
                         <option *ngFor="let o of typeOptions" [ngValue]="o.value">{{o.name}}</option>
                     </select>
                 </div>
@@ -351,8 +351,9 @@
                                 [disabled]="!cipher.viewPassword && !f.newField">
                             <!--Custom Field: Linked-->
                             <select id="fieldValue{{i}}" name="Field.Value{{i}}" [(ngModel)]="f.value"
-                                *ngIf="f.type === fieldType.Linked" [disabled]="!cipher.viewPassword && !f.newField">
-                                <option *ngFor="let o of linkedFieldTypeOptions" [ngValue]="o.value">{{o.name}}</option>
+                                *ngIf="f.type === fieldType.Linked && cipher.type !== cipherType.SecureNote"
+                                [disabled]="!cipher.viewPassword && !f.newField">
+                                <option *ngFor="let o of linkedFieldOptions" [ngValue]="o.value">{{o.name}}</option>
                             </select>
                         </div>
                         <!--Custom Field: Boolean-->
