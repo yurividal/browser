@@ -1764,14 +1764,5 @@
   },
   "emailVerificationRequiredDesc": {
     "message": "You must verify your email to use this feature. You can verify your email in the web vault."
-  },
-  "linkedTo": {
-    "message": "Linked to: $TARGETFIELD$",
-    "placeholders": {
-      "targetField": {
-        "content": "$1",
-        "example": "username"
-      }
-    }
   }
 }
