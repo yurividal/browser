@@ -43,6 +43,7 @@ import {
     EnvironmentService as EnvironmentServiceAbstraction,
     FolderService as FolderServiceAbstraction,
     I18nService as I18nServiceAbstraction,
+    LogService as LogServiceAbstraction,
     MessagingService as MessagingServiceAbstraction,
     PasswordGenerationService as PasswordGenerationServiceAbstraction,
     PlatformUtilsService as PlatformUtilsServiceAbstraction,
@@ -97,7 +98,7 @@ export default class MainBackground {
     i18nService: I18nServiceAbstraction;
     platformUtilsService: PlatformUtilsServiceAbstraction;
     constantsService: ConstantsService;
-    consoleLogService: ConsoleLogService;
+    logService: LogServiceAbstraction;
     cryptoService: CryptoServiceAbstraction;
     cryptoFunctionService: CryptoFunctionServiceAbstraction;
     tokenService: TokenServiceAbstraction;
@@ -175,17 +176,18 @@ export default class MainBackground {
         this.secureStorageService = new BrowserStorageService();
         this.i18nService = new I18nService(BrowserApi.getUILanguage(window));
         this.cryptoFunctionService = new WebCryptoFunctionService(window, this.platformUtilsService);
-        this.consoleLogService = new ConsoleLogService(false);
+        this.logService = new ConsoleLogService(false);
         this.cryptoService = new BrowserCryptoService(this.storageService, this.secureStorageService,
-            this.cryptoFunctionService, this.platformUtilsService, this.consoleLogService);
+            this.cryptoFunctionService, this.platformUtilsService, this.logService);
         this.tokenService = new TokenService(this.storageService);
         this.appIdService = new AppIdService(this.storageService);
-        this.apiService = new ApiService(this.tokenService, this.platformUtilsService,
+        this.environmentService = new EnvironmentService(this.storageService);
+        this.apiService = new ApiService(this.tokenService, this.platformUtilsService, this.environmentService,
             (expired: boolean) => this.logout(expired));
         this.userService = new UserService(this.tokenService, this.storageService);
         this.settingsService = new SettingsService(this.userService, this.storageService);
-        this.fileUploadService = new FileUploadService(this.consoleLogService, this.apiService);
         this.webWorkerService = new WebWorkerService();
+        this.fileUploadService = new FileUploadService(this.logService, this.apiService);
         this.cipherService = new CipherService(this.cryptoService, this.userService, this.settingsService,
             this.apiService, this.fileUploadService, this.storageService, this.i18nService, () => this.searchService,
             this.webWorkerService, this.consoleLogService, this.platformUtilsService);
@@ -193,7 +195,7 @@ export default class MainBackground {
             this.storageService, this.i18nService, this.cipherService);
         this.collectionService = new CollectionService(this.cryptoService, this.userService, this.storageService,
             this.i18nService);
-        this.searchService = new SearchService(this.cipherService, this.consoleLogService, this.i18nService);
+        this.searchService = new SearchService(this.cipherService, this.logService, this.i18nService);
         this.sendService = new SendService(this.cryptoService, this.userService, this.apiService, this.fileUploadService,
             this.storageService, this.i18nService, this.cryptoFunctionService);
         this.stateService = new StateService();
@@ -228,9 +230,7 @@ export default class MainBackground {
         this.exportService = new ExportService(this.folderService, this.cipherService, this.apiService,
             this.cryptoService);
         this.notificationsService = new NotificationsService(this.userService, this.syncService, this.appIdService,
-            this.apiService, this.vaultTimeoutService, () => this.logout(true), this.consoleLogService);
-        this.environmentService = new EnvironmentService(this.apiService, this.storageService,
-            this.notificationsService);
+            this.apiService, this.vaultTimeoutService, this.environmentService, () => this.logout(true), this.logService);
         this.popupUtilsService = new PopupUtilsService(this.platformUtilsService);
         this.systemService = new SystemService(this.storageService, this.vaultTimeoutService,
             this.messagingService, this.platformUtilsService, () => {
@@ -274,7 +274,7 @@ export default class MainBackground {
                     const message = Object.assign({}, { command: subscriber }, arg);
                     that.runtimeBackground.processMessage(message, that, null);
                 }
-            }(), this.vaultTimeoutService, this.consoleLogService);
+            }(), this.vaultTimeoutService, this.logService);
     }
 
     async bootstrap() {
@@ -299,7 +299,7 @@ export default class MainBackground {
                 await this.setIcon();
                 this.cleanupNotificationQueue();
                 this.fullSync(true);
-                setTimeout(() => this.notificationsService.init(this.environmentService), 2500);
+                setTimeout(() => this.notificationsService.init(), 2500);
                 resolve();
             }, 500);
         });
