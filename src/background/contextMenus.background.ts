@@ -40,10 +40,6 @@ export default class ContextMenusBackground {
         });
     }
 
-    copyClickedElement(msg: any) {
-        this.platformUtilsService.copyToClipboard(msg.identifier, { window: window });
-    }
-
     private async generatePasswordToClipboard() {
         const options = (await this.passwordGenerationService.getOptions())[0];
         const password = await this.passwordGenerationService.generatePassword(options);

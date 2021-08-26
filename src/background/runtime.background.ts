@@ -18,8 +18,6 @@ import { ConstantsService } from 'jslib-common/services/constants.service';
 import { AutofillService } from '../services/abstractions/autofill.service';
 import BrowserPlatformUtilsService from '../services/browserPlatformUtils.service';
 
-import ContextMenusBackground from './contextMenus.background';
-
 import { BrowserApi } from '../browser/browserApi';
 
 import MainBackground from './main.background';
@@ -41,8 +39,7 @@ export default class RuntimeBackground {
         private notificationsService: NotificationsService,
         private systemService: SystemService, private vaultTimeoutService: VaultTimeoutService,
         private environmentService: EnvironmentService, private policyService: PolicyService,
-        private userService: UserService, private messagingService: MessagingService,
-        private contextMenusBackground: () => ContextMenusBackground) {
+        private userService: UserService, private messagingService: MessagingService) {
 
         // onInstalled listener must be wired up before anything else, so we do it in the ctor
         chrome.runtime.onInstalled.addListener((details: any) => {
@@ -199,7 +196,7 @@ export default class RuntimeBackground {
                 });
                 break;
             case 'getClickedElementResponse':
-                this.contextMenusBackground().copyClickedElement(msg);
+                this.platformUtilsService.copyToClipboard(msg.identifier, { window: window });
             default:
                 break;
         }
