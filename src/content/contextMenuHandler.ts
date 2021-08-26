@@ -2,7 +2,7 @@ const inputTags = ['input', 'textarea', 'select'];
 const attributes = ['id', 'name', 'label-aria', 'placeholder'];
 let clickedEl: HTMLElement = null;
 
-// Find the best attribute to be used as the Name for an element in a custom field
+// Find the best attribute to be used as the Name for an element in a custom field.
 function getClickedElementIdentifier() {
     if (!inputTags.includes(clickedEl.nodeName.toLowerCase())) {
         return 'Invalid element type.';
@@ -28,7 +28,7 @@ document.addEventListener('contextmenu', event => {
     clickedEl = event.target as HTMLElement;
 });
 
-// Runs when the 'Copy Custom Field Name' context menu item is actually clicked
+// Runs when the 'Copy Custom Field Name' context menu item is actually clicked.
 chrome.runtime.onMessage.addListener(event => {
     if (event.command === 'getClickedElement' && clickedEl != null) {
         const identifier = getClickedElementIdentifier();
