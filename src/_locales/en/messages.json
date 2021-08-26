@@ -89,7 +89,7 @@
     "message": "Generate Password (copied)"
   },
   "copyElementIdentifier": {
-    "message": "Copy custom field name"
+    "message": "Copy Custom Field Name"
   },
   "noMatchingLogins": {
     "message": "No matching logins."
