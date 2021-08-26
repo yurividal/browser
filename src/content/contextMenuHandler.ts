@@ -1,37 +1,37 @@
 const inputTags = ['input', 'textarea', 'select'];
 const attributes = ['id', 'name', 'label-aria', 'placeholder'];
 let clickedEl: HTMLElement = null;
-let identifier: string = null;
 
-function getClickedElementIdentifier(event: Event) {
-    clickedEl = event.target as HTMLElement;
-
+// Find the best attribute to be used as the Name for an element in a custom field
+function getClickedElementIdentifier() {
     if (!inputTags.includes(clickedEl.nodeName.toLowerCase())) {
-        identifier = null;
-        return;
+        return 'Invalid element type.';
     }
 
     for (let attr of attributes) {
         const attributeValue = clickedEl.getAttribute(attr);
-        if (!isNullOrEmpty(attributeValue)) {
-            identifier = attributeValue;
-            if (document.querySelectorAll('[' + attr + '="' + attributeValue + '"]')?.length === 1) {
-                break;
-            }
+        const selector = '[' + attr + '="' + attributeValue + '"]';
+        if (!isNullOrEmpty(attributeValue) && document.querySelectorAll(selector)?.length === 1) {
+            return attributeValue;
         }
     }
+    return 'No unique identifier found.';
 }
 
 function isNullOrEmpty(s: string) {
     return s == null || s === '';
 }
 
+// We only have access to the element that's been clicked when the context menu is first opened.
+// Remember it for use later.
 document.addEventListener('contextmenu', event => {
-    getClickedElementIdentifier(event);
+    clickedEl = event.target as HTMLElement;
 });
 
+// Runs when the 'Copy Custom Field Name' is actually clicked
 chrome.runtime.onMessage.addListener(event => {
     if (event.command === 'getClickedElement' && clickedEl != null) {
+        const identifier = getClickedElementIdentifier();
         chrome.runtime.sendMessage({
             command: 'getClickedElementResponse',
             sender: 'contextMenuHandler',
