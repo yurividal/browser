@@ -1,6 +1,7 @@
+const inputTags = ['input', 'textarea', 'select'];
+const attributes = ['id', 'name', 'label-aria', 'placeholder'];
 let clickedEl: HTMLElement = null;
 let identifier: string = null;
-const inputTags = ['input', 'textarea', 'select'];
 
 function getClickedElementIdentifier(event: Event) {
     clickedEl = event.target as HTMLElement;
@@ -10,13 +11,14 @@ function getClickedElementIdentifier(event: Event) {
         return;
     }
 
-    const name = clickedEl.getAttribute('name');
-    const id = clickedEl.getAttribute('id');
-
-    if (!isNullOrEmpty(name) && !isNullOrEmpty(id)) {
-        identifier = document.getElementsByName(name)?.length === 1 ? name : id;
-    } else {
-        identifier = isNullOrEmpty(name) ? id : name;
+    for (let attr of attributes) {
+        const attributeValue = clickedEl.getAttribute(attr);
+        if (!isNullOrEmpty(attributeValue)) {
+            identifier = attributeValue;
+            if (document.querySelectorAll('[' + attr + '="' + attributeValue + '"]')?.length === 1) {
+                break;
+            }
+        }
     }
 }
 
