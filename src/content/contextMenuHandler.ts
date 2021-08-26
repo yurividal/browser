@@ -8,7 +8,7 @@ function getClickedElementIdentifier() {
         return 'Invalid element type.';
     }
 
-    for (let attr of attributes) {
+    for (const attr of attributes) {
         const attributeValue = clickedEl.getAttribute(attr);
         const selector = '[' + attr + '="' + attributeValue + '"]';
         if (!isNullOrEmpty(attributeValue) && document.querySelectorAll(selector)?.length === 1) {
@@ -28,7 +28,7 @@ document.addEventListener('contextmenu', event => {
     clickedEl = event.target as HTMLElement;
 });
 
-// Runs when the 'Copy Custom Field Name' is actually clicked
+// Runs when the 'Copy Custom Field Name' context menu item is actually clicked
 chrome.runtime.onMessage.addListener(event => {
     if (event.command === 'getClickedElement' && clickedEl != null) {
         const identifier = getClickedElementIdentifier();
