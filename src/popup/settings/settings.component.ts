@@ -1,13 +1,13 @@
-import Swal from 'sweetalert2/src/sweetalert2.js';
 import {
     Component,
     ElementRef,
     OnInit,
     ViewChild,
 } from '@angular/core';
-import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ToasterService } from 'angular2-toaster';
+import Swal from 'sweetalert2/src/sweetalert2.js';
 
 import { BrowserApi } from '../../browser/browserApi';
 
@@ -99,9 +99,9 @@ export class SettingsComponent implements OnInit {
             this.vaultTimeout.setValue(timeout);
         }
         this.previousVaultTimeout = this.vaultTimeout.value;
-        this.vaultTimeout.valueChanges.subscribe((value) => {
+        this.vaultTimeout.valueChanges.subscribe(value => {
             this.saveVaultTimeout(value);
-        })
+        });
 
         const action = await this.storageService.get<string>(ConstantsService.vaultTimeoutActionKey);
         this.vaultTimeoutAction = action == null ? 'lock' : action;
