@@ -4,6 +4,10 @@ let clickedEl: HTMLElement = null;
 
 // Find the best attribute to be used as the Name for an element in a custom field.
 function getClickedElementIdentifier() {
+    if (clickedEl == null) {
+        return 'Unable to identify clicked element.'
+    }
+
     if (!inputTags.includes(clickedEl.nodeName.toLowerCase())) {
         return 'Invalid element type.';
     }
@@ -30,7 +34,7 @@ document.addEventListener('contextmenu', event => {
 
 // Runs when the 'Copy Custom Field Name' context menu item is actually clicked.
 chrome.runtime.onMessage.addListener(event => {
-    if (event.command === 'getClickedElement' && clickedEl != null) {
+    if (event.command === 'getClickedElement') {
         const identifier = getClickedElementIdentifier();
         chrome.runtime.sendMessage({
             command: 'getClickedElementResponse',
