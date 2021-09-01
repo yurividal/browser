@@ -9,6 +9,8 @@ import {
     Router,
 } from '@angular/router';
 
+import { first } from 'rxjs/operators';
+
 import { TwoFactorProviderType } from 'jslib-common/enums/twoFactorProviderType';
 
 import { ApiService } from 'jslib-common/abstractions/api.service';
@@ -95,18 +97,13 @@ export class TwoFactorComponent extends BaseTwoFactorComponent {
             }
         }
 
-        const queryParamsSub = this.route.queryParams.subscribe(async qParams => {
-            if (qParams.sso === 'true') {
-                super.onSuccessfulLogin = () => {
-                    BrowserApi.reloadOpenWindows();
-                    const thisWindow = window.open('', '_self');
-                    thisWindow.close();
-                    return this.syncService.fullSync(true);
-                };
-                if (queryParamsSub != null) {
-                    queryParamsSub.unsubscribe();
-                }
-            }
+        this.route.queryParams.pipe(first(qParams => qParams.sso === 'true')).subscribe(() => {
+            super.onSuccessfulLogin = () => {
+                BrowserApi.reloadOpenWindows();
+                const thisWindow = window.open('', '_self');
+                thisWindow.close();
+                return this.syncService.fullSync(true);
+            };
         });
     }
 
